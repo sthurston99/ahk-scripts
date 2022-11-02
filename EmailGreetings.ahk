@@ -4,14 +4,14 @@
     responses := ["Hi","Hey"]
     ^r::
         Send, ^r+{Tab 3}^a
-        Sleep, 150
+        Sleep, 200
         Send, ^c
-        Sleep, 150
+        Sleep, 200
         fullEmail:=clipboard
         RegExMatch(fullEmail,"^\w+", firstName)
-        Sleep, 150
+        Sleep, 200
         clipboard:=firstName
-        Sleep, 150
+        Sleep, 200
         Random, greet, 1, responses.Length()
         response := responses[greet]
         Send, {Tab 3}
