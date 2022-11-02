@@ -9,17 +9,16 @@
         Send, ^v{Enter}
     return
     
-    #If (WinActive(New Ticket))
-    {
-        ^+e::
-            WinActivate, ahk_exe OUTLOOK.EXE
-            Send, {Alt}jdm{Enter}
-            userName := clipboard
-            WinActivate, ahk_exe RangerMSP.exe
-            Send, ^a^x
-            clipboard := StrReplace(clipboard, "$User", userName)
-            clipboard := StrReplace(clipboard, "$ContactType", "email")
-            Send, ^v
-        return
-    }
+    ^+e::
+        WinActivate, ahk_exe OUTLOOK.EXE
+        Send, {Alt}jdm{Enter}
+        Sleep, 200
+        userName := clipboard
+        WinActivate, ahk_exe RangerMSP.exe
+        Send, ^a^x
+        clipboard := StrReplace(clipboard, "$User", userName)
+        clipboard := StrReplace(clipboard, "$ContactType", "email")
+        Sleep, 200
+        Send, ^v
+    return
 }
