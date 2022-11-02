@@ -1,4 +1,6 @@
+#SingleInstance Force
 #If (WinActive("ahk_exe OUTLOOK.EXE"))
+{
     responses := ["Hi","Hey"]
     ^r::
         Send, ^r+{Tab 3}^a
@@ -16,4 +18,4 @@
         Send, %response%
         Send, {Space}^v,{Enter 2}
     return
-#If
+}
