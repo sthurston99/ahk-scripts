@@ -8,6 +8,14 @@ Anyways I'll keep a general description of what each script is and what hotkeys 
 
 This is simply a launcher file I use to have all of my scripts run at startup. There's nothing to this one.
 
+### Ctrl+Alt+Shift+r
+
+This triggers a force reload of all scripts, to update them with edits on the fly.
+
+### Ctrl+Alt+Shift+q
+
+Closes all scripts except for the Master Script, in case of anything catastrophic.
+
 ## EmailGreetings.ahk
 
 This script is one I use to automate boring email stuff. Because Outlook doesn't let you have any fun.
@@ -15,3 +23,15 @@ This script is one I use to automate boring email stuff. Because Outlook doesn't
 ### Ctrl+r
 
 This is meant to go on top of the reply shortcut. On press, it will pass through the shortcut to Outlook, opening the editor pane to reply to a message. It will then automatically copy the info from the "to" line, parse a regex on it extracting the first name, then paste it back into the body of the editor with a boilerplate greeting attached. This, combined with a signature that already includes a boilerplate sign-off, makes it so that I only have to focus on writing boilerplate body messages.
+
+## TicketTemplate.ahk
+
+I use Ranger MSP (Previously Commit) at work as the primary ticketing software. Having to set up tickets manually all the time is a pain, and when someone calls in, you have to be quick with getting info in. These are a bunch of quick scripts to help speed up data entry.
+
+### Ctrl+n
+
+Creates a new ticket in the system, and automatically fills out a quick boilerplate header. To be used in combination with other inputs to generate full tickets.
+
+### Ctrl+Shift+e
+
+Pulls all the relevant info from a client who emails in, scraping it directly from Outlook. This is used in combination with an Outlook Macro to copy the sender name to the clipboard to be inserted back into Ranger.
