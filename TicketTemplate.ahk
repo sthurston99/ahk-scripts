@@ -1,5 +1,5 @@
 #SingleInstance Force
-SetKeyDelay, 30
+
 #If (WinActive("ahk_exe RangerMSP.exe"))
 {
     ^n::

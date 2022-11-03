@@ -1,21 +1,15 @@
 #SingleInstance Force
-SetKeyDelay, 30
+
 #If (WinActive("ahk_exe OUTLOOK.EXE"))
 {
     responses := ["Hi","Hey"]
     ^r::
-        Send, ^r+{Tab 3}^a
-        Sleep, 200
-        Send, ^c
-        Sleep, 200
-        fullEmail:=clipboard
-        RegExMatch(fullEmail,"^\w+", firstName)
-        Sleep, 200
-        clipboard:=firstName
-        Sleep, 200
+        Send, ^r
+        olItem := ComObjActive("Outlook.Application").ActiveExplorer.Selection.Item(1)
+        RegExMatch(olItem.SenderName,"\w{2,}(?: )", match)
+        clipboard := match
         Random, greet, 1, responses.Length()
         response := responses[greet]
-        Send, {Tab 3}
         Send, %response%
         Send, {Space}^v,{Enter 2}
     return
