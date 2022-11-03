@@ -11,7 +11,7 @@
     
     ^+e::
         WinActivate, ahk_exe OUTLOOK.EXE
-        Send, {Alt}jdm{Enter}
+        Send, {Alt}jdm{Down}{Enter}
         Sleep, 200
         userName := clipboard
         WinActivate, ahk_exe RangerMSP.exe
