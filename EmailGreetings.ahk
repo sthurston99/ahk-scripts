@@ -1,4 +1,5 @@
 #SingleInstance Force
+SetKeyDelay, 30
 #If (WinActive("ahk_exe OUTLOOK.EXE"))
 {
     responses := ["Hi","Hey"]

@@ -1,5 +1,5 @@
 #SingleInstance Force
-
+SetKeyDelay, 30
 AHKPath:="C:\Program Files\AutoHotkey\AutoHotkey.exe"
 
 Loop %A_WorkingDir%\*

@@ -1,4 +1,5 @@
 #SingleInstance Force
+SetKeyDelay, 30
 #If (WinActive("ahk_exe RangerMSP.exe"))
 {
     ^n::
@@ -10,15 +11,10 @@
     return
     
     ^+e::
-        WinActivate, ahk_exe OUTLOOK.EXE
-        Send, {Alt}jdm{Down}{Enter}
-        Sleep, 200
-        userName := clipboard
-        WinActivate, ahk_exe RangerMSP.exe
+        olItem := ComObjActive("Outlook.Application").ActiveExplorer.Selection.Item(1)
         Send, ^a^x
-        clipboard := StrReplace(clipboard, "$User", userName)
+        clipboard := StrReplace(clipboard, "$User", RegExReplace(olItem.SenderName, "\w\. "))
         clipboard := StrReplace(clipboard, "$ContactType", "email")
-        Sleep, 200
         Send, ^v
     return
 }
