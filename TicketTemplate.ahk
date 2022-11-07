@@ -17,4 +17,17 @@
         clipboard := StrReplace(clipboard, "$ContactType", "email")
         Send, ^v
     return
+
+    ^+p::
+        InputBox, userName, Name:,,,150,100
+        InputBox, userAccount, Account:,,,150,100
+        Send, ^a^x
+        clipboard := StrReplace(clipboard, "$User", userName)
+        clipboard := StrReplace(clipboard, "$ContactType", "phone")
+        Send, ^v
+        Send, +{Tab 3}
+        Send, %userAccount%
+        KeyWait, Enter, D
+        Send, {Tab 3}
+    return
 }
