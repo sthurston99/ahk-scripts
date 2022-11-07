@@ -1,3 +1,17 @@
+# Table of Contents
+
+* [AutoHotkey Scripts](#AutoHotkey Scripts)
+	* [MasterScript.ahk](#MasterScriptahk)
+		* [Ctrl+Alt+Shift+r](#CtrlAltShiftr)
+		* [Ctrl+Alt+Shift+q](#CtrlAltShiftq)
+	* [EmailGreetings.ahk](#EmailGreetingsahk)
+		* [Ctrl+r](#Ctrlr)
+	* [TicketTemplate.ahk](#TicketTemplateahk)
+		* [Ctrl+n](#Ctrln)
+		* [Ctrl+Shift+e](#CtrlShifte)
+	* [MDTableOfContents.ahk](#MDTableOfContentsahk)
+		* [Ctrl+Alt+m](#CtrlAltm)
+
 # AutoHotkey Scripts
 
 I feel like just about everyone gets sick and tired of doing things by hand, so what better way to stick it to my poor, poor, RSI riddled hands than to automate everything and put them out of a job! Take THAT, bones!
@@ -35,3 +49,11 @@ Creates a new ticket in the system, and automatically fills out a quick boilerpl
 ### Ctrl+Shift+e
 
 Pulls all the relevant info from a client who emails in, scraping it directly from Outlook. This is used in combination with an Outlook Macro to copy the sender name to the clipboard to be inserted back into Ranger.
+
+## MDTableOfContents.ahk
+
+What I used to make the Table of Contents for this file! If you want a nice Table of Contents for your readme, go ahead and use this!
+
+### Ctrl+Alt+m
+
+Will Select All and Cut the current Window Text, grab all markdown headers from it, then build a Table of Contents from said headers, pasting it back in at the beginning of the document.
