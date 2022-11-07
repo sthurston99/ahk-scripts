@@ -1,6 +1,6 @@
 # Table of Contents
 
-* [AutoHotkey Scripts](#AutoHotkey Scripts)
+* [AutoHotkey Scripts](#AutoHotkey+Scripts)
 	* [MasterScript.ahk](#MasterScriptahk)
 		* [Ctrl+Alt+Shift+r](#CtrlAltShiftr)
 		* [Ctrl+Alt+Shift+q](#CtrlAltShiftq)
