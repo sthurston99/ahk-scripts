@@ -1,15 +1,7 @@
 #SingleInstance Force
+#Include EmailFuncs.ahk
 
-GetEmailBody()
-{
-    olItem := ComObjActive("Outlook.Application").ActiveExplorer.Selection.Item(1)
-    sender := RegExReplace(olItem.SenderName, "\w\. ")
-    RegExMatch(olItem.SenderName,"\w{2,}(?: )", senderFN)
-    body := Trim(RegExReplace(olItem.Body, "s)(?=" . senderFN . "|" . sender . "|" . olItem.SenderName . ").*"), " `t`n`r")
-    return body
-}
-
-SetMyLabel()
+SetLabel()
 {
     Sleep, 50
     Click, 300 100
@@ -32,28 +24,26 @@ SetMyLabel()
         Send, ^v{Enter}
     return
 
-    ^+l::SetMyLabel()
+    ^+l::SetLabel()
 }
 
 #If (WinActive("New Ticket"))
 {
     ^+e::
         olItem := ComObjActive("Outlook.Application").ActiveExplorer.Selection.Item(1)
-        sender := RegExReplace(olItem.SenderName, "\w\. ")
+        olItem.Categories := "ST"
+        olItem.UnRead := False
         Send, ^a^x
-        clipboard := StrReplace(clipboard, "$User", sender)
+        clipboard := StrReplace(clipboard, "$User", GetSender())
         clipboard := StrReplace(clipboard, "$ContactType", "email")
         RegExMatch(olItem.SenderEmailAddress, "(?<=@).*(?=\.)", userAccount)
         userAccount := SubStr(userAccount, 1, 4)
         Send, ^v
+        Send, % GetEmailBody()
         Send, +{Tab 3}
         Send, %userAccount%
         KeyWait, Enter, D
         Send, {Enter}{Tab 3}
-        body := GetEmailBody()
-        Send, % body
-        olItem.Categories := "ST"
-        olItem.UnRead := False
     return
 
     ^+p::
@@ -69,7 +59,7 @@ SetMyLabel()
         Send, {Tab 3}
     return
 
-    ^g::SetMyLabel()
+    ^g::SetLabel()
 }
 
 #If (WinActive("New Charge - (Labor)"))
