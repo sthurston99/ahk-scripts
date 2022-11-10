@@ -6,8 +6,7 @@
     ^r::
         Send, ^r
         olItem := ComObjActive("Outlook.Application").ActiveExplorer.Selection.Item(1)
-        RegExMatch(olItem.SenderName,"\w{2,}(?: )", match)
-        clipboard := match
+        clipboard := RegExReplace(olItem.SenderName,"\s.*")
         Random, greet, 1, responses.Length()
         response := responses[greet]
         Send, %response%
