@@ -24,7 +24,6 @@
             str := % RegExReplace(str, "[\.+](?!\S+\])")
             ; Replace spaces with plusses
             str := % RegExReplace(str, "#(\w+)\s(\w+)", "#$1+$2")
-            MsgBox, % str
             outstr := outstr . str . "`n"
         }
         RegExMatch(clipboard, "m)^# (?!Table of Contents)(.*\R)*.*", out)

@@ -7,10 +7,23 @@
 	* [EmailGreetings.ahk](#EmailGreetingsahk)
 		* [Ctrl+r](#Ctrlr)
 	* [TicketTemplate.ahk](#TicketTemplateahk)
+		* [SetLabel()](#SetLabel())
 		* [Ctrl+n](#Ctrln)
+		* [Ctrl+l](#Ctrll)
 		* [Ctrl+Shift+e](#CtrlShifte)
+		* [Ctrl+Shift+p](#CtrlShiftp)
+		* [Ctrl+g](#Ctrlg)
+		* [Ctrl+e](#Ctrle)
 	* [MDTableOfContents.ahk](#MDTableOfContentsahk)
 		* [Ctrl+Alt+m](#CtrlAltm)
+	* [EmailFuncs](#EmailFuncs)
+		* [GetCurrentEmail()](#GetCurrentEmail())
+		* [GetSender()](#GetSender())
+		* [GetStandardName(name)](#GetStandardName(name))
+		* [GetFirstName(name)](#GetFirstName(name))
+		* [GetEmailBody(email,name)](#GetEmailBody(email,name))
+		* [GenerateGreeting()](#GenerateGreeting())
+		* [Ctrl+;](#Ctrl;)
 
 # AutoHotkey Scripts
 
