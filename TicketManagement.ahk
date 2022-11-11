@@ -42,8 +42,7 @@ SetRemoteLabor() {
             Send, ^a^x
             clipboard := StrReplace(clipboard, "$User", GetSender())
             clipboard := StrReplace(clipboard, "$ContactType", "email")
-            RegExMatch(GetEmailDomain(), "(?<=@).*(?=\.)", userAccount)
-            userAccount := SubStr(userAccount, 1, 4)
+            userAccount := SubStr(GetEmailDomain(), 1, 4)
             Send, ^v
             Send, % GetEmailBody()
             Send, +{Tab 3}
