@@ -23,7 +23,6 @@
 		* [GetFirstName(name)](#GetFirstName(name))
 		* [GetEmailBody(email,name)](#GetEmailBody(email,name))
 		* [GenerateGreeting()](#GenerateGreeting())
-		* [Ctrl+;](#Ctrl;)
 
 # AutoHotkey Scripts
 
@@ -116,7 +115,3 @@ Uses the name of the sender of an email to crop out the email signature at the e
 ### GenerateGreeting()
 
 Returns a random greeting to use when creating new emails.
-
-### Ctrl+;
-
-Debug Hotkey, usually used to copy data to clipboard to send to Regex101 or to display MsgBox with contents of function. Will eventually move to Debug script.
