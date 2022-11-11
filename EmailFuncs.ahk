@@ -48,6 +48,23 @@ GetEmailBody(email:="",name:="") {
     return Trim(RegExReplace(RegExReplace(email, regexstr), linecleaner, "`n`n"), whitespace)
 }
 
+; Sets the Category of the email to mark that it was handled by me, and marks as read
+SetAsHandled() {
+    email := GetCurrentEmail()
+    email.Categories := "ST"
+    email.UnRead := False
+    return
+}
+
+; Returns the domain of an email address
+GetEmailDomain(address:="") {
+    if(address = "") {
+        address := GetCurrentEmail().SenderEmailAddress
+    }
+    RegExMatch(address, "(?<=@).*(?=\.)", account)
+    return account
+}
+
 ; Returns a random boilerplate email greeting
 GenerateGreeting() {
     greetings := ["Hi","Hey"]

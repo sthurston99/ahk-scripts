@@ -1,18 +1,21 @@
 #SingleInstance Force
 #Include EmailFuncs.ahk
 
-SetLabel()
-{
+SetLabel() {
     Sleep, 50
     Click, 300 100
-        Click, 50 250 0 Rel
-        Loop, 50
-        {
-            Click, WD 1
-            Sleep, 5
-        }
+    Click, 50 250 0 Rel
+    Loop, 50 {
+        Click, WD 1
+        Sleep, 5
+    }
     Click
 }
+
+SetRemoteLabor() {
+    Send, +{Tab 4}Labor{Space}+9R{Enter}{Tab 3}{Enter}
+}
+
 #If (WinActive("AHK_exe RangerMSP.exe"))
 {
     #If (WinActive("RangerMSP 28 SQL"))
@@ -26,26 +29,27 @@ SetLabel()
         return
 
         ^+l::SetLabel()
+
+        !+c::
+            Send, !+c{Tab 8}
+            SetRemoteLabor()
+        return
     }
 
     #If (WinActive("New Ticket"))
     {
         ^+e::
-            olItem := ComObjActive("Outlook.Application").ActiveExplorer.Selection.Item(1)
-            olItem.Categories := "ST"
-            olItem.UnRead := False
             Send, ^a^x
             clipboard := StrReplace(clipboard, "$User", GetSender())
             clipboard := StrReplace(clipboard, "$ContactType", "email")
-            RegExMatch(olItem.SenderEmailAddress, "(?<=@).*(?=\.)", userAccount)
+            RegExMatch(GetEmailDomain(), "(?<=@).*(?=\.)", userAccount)
             userAccount := SubStr(userAccount, 1, 4)
             Send, ^v
             Send, % GetEmailBody()
             Send, +{Tab 3}
             Send, %userAccount%
             KeyWait, Enter, D
-            Send, {Enter}{Tab 3}
-            Send, ^g
+            Send, {Enter}{Tab 3}^g
         return
 
         ^+p::
@@ -70,7 +74,6 @@ SetLabel()
     #If (WinActive("New Charge - (Labor)"))
     {
         ^e::
-            Send, {Tab 4}Labor{Space}+9R{Enter}{Tab 3}{Enter}
             Send, % GetFirstName()
             Send, {Space}Emailed in:{Enter}
             Send, % GetEmailBody()
