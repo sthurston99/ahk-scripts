@@ -42,13 +42,33 @@ This is meant to go on top of the reply shortcut. On press, it will pass through
 
 I use Ranger MSP (Previously Commit) at work as the primary ticketing software. Having to set up tickets manually all the time is a pain, and when someone calls in, you have to be quick with getting info in. These are a bunch of quick scripts to help speed up data entry.
 
+### SetLabel()
+
+Automatically sets my label on a ticket. Turned into function due to frequency in which this is called.
+
 ### Ctrl+n
 
 Creates a new ticket in the system, and automatically fills out a quick boilerplate header. To be used in combination with other inputs to generate full tickets.
 
+### Ctrl+l
+
+Calls the SetLabel() function from the main Ranger tickets screen.
+
 ### Ctrl+Shift+e
 
 Pulls all the relevant info from a client who emails in, scraping it directly from Outlook. This is used in combination with an Outlook Macro to copy the sender name to the clipboard to be inserted back into Ranger.
+
+### Ctrl+Shift+p
+
+Gives prompts for Triaging info from phone calls and filling out the ticket with them.
+
+### Ctrl+g
+
+Overwrites the regular save action on the new ticket screen to automatically call the SetLabel() function on save.
+
+### Ctrl+e
+
+Automatically pulls in info from emails to add as charges quickly.
 
 ## MDTableOfContents.ahk
 
@@ -57,3 +77,33 @@ What I used to make the Table of Contents for this file! If you want a nice Tabl
 ### Ctrl+Alt+m
 
 Will Select All and Cut the current Window Text, grab all markdown headers from it, then build a Table of Contents from said headers, pasting it back in at the beginning of the document.
+
+## EmailFuncs
+
+### GetCurrentEmail()
+
+Grabs the currently selected email within Outlook and returns it as a Mailitem VBA object via OLE.
+
+### GetSender()
+
+Returns the Full Name of the sender of the current selected email.
+
+### GetStandardName(name)
+
+When given a full name as an input (i.e. including Office formatted middle initials), will strip it down to FirstName[[:space:]]LastName for the purposes of data sanitization.
+
+### GetFirstName(name)
+
+Cuts out the Middle Initial and/or the Last Name of the given name to return on the the First Name of the sender.
+
+### GetEmailBody(email,name)
+
+Uses the name of the sender of an email to crop out the email signature at the earliest point possible.
+
+### GenerateGreeting()
+
+Returns a random greeting to use when creating new emails.
+
+### Ctrl+;
+
+Debug Hotkey, usually used to copy data to clipboard to send to Regex101 or to display MsgBox with contents of function. Will eventually move to Debug script.
