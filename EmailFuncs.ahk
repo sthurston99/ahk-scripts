@@ -34,9 +34,10 @@ GetFirstName(name:="") {
 GetEmailBody(email:="",name:="") {
     whitespace := " `t`n`r"
     regexstr := "s)(?=" . GetFirstName(name) . "|" . GetStandardName(name) . "|"
+    linecleaner := "\s{2,}"
     
     if(email = "") {
-        email = GetCurrentEmail().Body
+        email := GetCurrentEmail().Body
     }
 
     if(name = "") {
@@ -44,7 +45,7 @@ GetEmailBody(email:="",name:="") {
     } else {
         regexstr := regexstr . name . ").*"
     }
-    return Trim(RegExReplace(email, regexstr), whitespace)
+    return Trim(RegExReplace(RegExReplace(email, regexstr), linecleaner, "`n`n"), whitespace)
 }
 
 ; Returns a random boilerplate email greeting
@@ -54,4 +55,5 @@ GenerateGreeting() {
     return greetings[idx]
 }
 
-^;::MsgBox, % GetFirstName()
+;; DEBUG ONLY
+^;::clipboard := GetEmailBody()
