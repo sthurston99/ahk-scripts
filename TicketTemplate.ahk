@@ -46,7 +46,6 @@ SetLabel()
             KeyWait, Enter, D
             Send, {Enter}{Tab 3}
             Send, ^g
-            SetLabel()
         return
 
         ^+p::
