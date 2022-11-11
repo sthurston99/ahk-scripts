@@ -49,7 +49,7 @@ SetRemoteLabor() {
             Send, +{Tab 3}
             Send, %userAccount%
             KeyWait, Enter, D
-            Send, {Enter}{Tab 3}^g
+            Send, {Enter}{Tab 3}^g^t
         return
 
         ^+p::
