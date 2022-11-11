@@ -61,7 +61,10 @@ SetLabel()
         Send, {Tab 3}
     return
 
-    ^g::SetLabel()
+    ^g::
+        Send, ^g
+        SetLabel()
+    return
 }
 
 #If (WinActive("New Charge - (Labor)"))
