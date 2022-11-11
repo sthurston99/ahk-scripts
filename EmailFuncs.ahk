@@ -54,6 +54,3 @@ GenerateGreeting() {
     Random, idx, 1, greetings.Length()
     return greetings[idx]
 }
-
-;; DEBUG ONLY
-^;::clipboard := GetEmailBody()
