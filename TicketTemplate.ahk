@@ -44,6 +44,8 @@ SetLabel()
         Send, %userAccount%
         KeyWait, Enter, D
         Send, {Enter}{Tab 3}
+        Send, ^g
+        SetLabel()
     return
 
     ^+p::
@@ -65,6 +67,9 @@ SetLabel()
 #If (WinActive("New Charge - (Labor)"))
 {
     ^e::
-        Send, +{Tab 4}Labor{Space}+9R{Enter}{Tab 3}{Enter}
+        Send, {Tab 4}Labor{Space}+9R{Enter}{Tab 3}{Enter}
+        Send, % GetFirstName()
+        Send, {Space}Emailed in:{Enter}
+        Send, % GetEmailBody()
     return
 }
