@@ -81,5 +81,7 @@ SetRemoteLabor() {
             Send, {Space}Emailed in:{Enter}
             Send, % GetEmailBody()
         return
+
+        ^r::SetRemoteLabor()
     }
 }
