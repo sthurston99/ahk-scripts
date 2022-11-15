@@ -33,7 +33,7 @@ GetFirstName(name:="") {
 ; If no email provided, uses current selected email in outlook
 GetEmailBody(email:="",name:="") {
     whitespace := " `t`n`r"
-    regexstr := "s)(?=" . GetFirstName(name) . "|" . GetStandardName(name) . "|"
+    regexstr := "s)(?=From:|" . GetFirstName(name) . "|" . GetStandardName(name) . "|"
     linecleaner := "\s{2,}"
     
     if(email = "") {
