@@ -83,5 +83,13 @@ SetRemoteLabor() {
         return
 
         ^r::SetRemoteLabor()
+
+        ^g::
+            Send, +{Tab 6}{Enter}
+            Sleep, 50
+            If(WinExist("Information"))
+                Send, {Enter}
+            Send, ^g
+        return
     }
 }
