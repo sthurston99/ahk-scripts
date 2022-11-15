@@ -69,7 +69,6 @@ SetRemoteLabor() {
 
         ^g::
             Send, ^g
-            SetLabel()
         return
     }
 
