@@ -91,5 +91,12 @@ SetRemoteLabor() {
                 Send, {Enter}
             Send, ^g
         return
+
+        ^t::
+            InputBox, mins, Minutes:,,,150,100
+            Send, +{Tab 6}{Right}
+            Send, % mins
+            Send, {Tab 7}
+        return
     }
 }
