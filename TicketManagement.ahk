@@ -66,10 +66,6 @@ SetRemoteLabor() {
             KeyWait, Enter, D
             Send, {Tab 3}
         return
-
-        ^g::
-            Send, ^g
-        return
     }
 
     #If (WinActive("New Charge - (Labor)"))
