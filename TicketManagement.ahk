@@ -52,7 +52,6 @@ SetRemoteLabor() {
             KeyWait, Enter, D
             Send, {Enter}{Tab 3}^g
             SetAsHandled()
-            SetLabel()
         return
 
         ^+p::
