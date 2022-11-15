@@ -31,7 +31,9 @@ SetRemoteLabor() {
         ^+l::SetLabel()
 
         !+c::
-            Send, !+c{Tab 8}
+            Send, !+c
+            Sleep, 50
+            Send, {Tab 8}
             SetRemoteLabor()
         return
     }
