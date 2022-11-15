@@ -79,6 +79,7 @@ SetRemoteLabor() {
             Send, % GetFirstName()
             Send, {Space}Emailed in:{Enter}
             Send, % GetEmailBody()
+            SetAsHandled()
         return
 
         ^r::SetRemoteLabor()
@@ -96,6 +97,16 @@ SetRemoteLabor() {
             Send, +{Tab 6}{Right}
             Send, % mins
             Send, {Tab 7}
+        return
+    }
+
+    #If (WinActive("Timer"))
+    {
+        ^Enter::
+            Click, 230, 50
+            Sleep, 100
+            Send, {Tab 8}
+            SetRemoteLabor()
         return
     }
 }
