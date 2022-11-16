@@ -80,7 +80,7 @@ SetRemoteLabor() {
         ^r::SetRemoteLabor()
 
         ^g::
-            Send, +{Tab 6}{Enter}
+            Click, 355, 130
             Sleep, 50
             If(WinExist("Information"))
                 Send, {Enter}
@@ -89,7 +89,7 @@ SetRemoteLabor() {
 
         ^t::
             InputBox, mins, Minutes:,,,150,100
-            Send, +{Tab 6}{Right}
+            Click, 330, 130
             Send, % mins
             Send, {Tab 7}
         return
