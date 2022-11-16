@@ -32,7 +32,10 @@ SetRemoteLabor() {
 
         !+c::
             Send, !+c
-            Sleep, 50
+            Sleep, 500
+            If(WinExist("Confirm")) {
+                Send, y
+            }
             Send, {Tab 8}
             SetRemoteLabor()
         return
@@ -84,12 +87,15 @@ SetRemoteLabor() {
             Sleep, 50
             If(WinExist("Information"))
                 Send, {Enter}
+            If(WinExist("Confirm"))
+                Send, {Enter}
             Send, ^g
         return
 
         ^t::
             InputBox, mins, Minutes:,,,150,100
-            Click, 330, 130
+            KeyWait, Enter, D
+            Click, 320, 130
             Send, % mins
             Send, {Tab 7}
         return
