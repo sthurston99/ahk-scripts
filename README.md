@@ -58,13 +58,21 @@ I use Ranger MSP (Previously Commit) at work as the primary ticketing software. 
 
 Automatically sets my label on a ticket. Turned into function due to frequency in which this is called.
 
+### SetRemoteLabor()
+
+Quickly sets the most frequent ticket type into a charge (Remote Labor)
+
 ### Ctrl+n
 
 Creates a new ticket in the system, and automatically fills out a quick boilerplate header. To be used in combination with other inputs to generate full tickets.
 
-### Ctrl+l
+### Ctrl+Shift+l
 
 Calls the SetLabel() function from the main Ranger tickets screen.
+
+### Alt+Shift+c
+
+Opens a new charge and automatically sets Remote Labor and focuses the text entry field.
 
 ### Ctrl+Shift+e
 
@@ -74,13 +82,25 @@ Pulls all the relevant info from a client who emails in, scraping it directly fr
 
 Gives prompts for Triaging info from phone calls and filling out the ticket with them.
 
+### Ctrl+e
+
+Automatically pulls in info from emails to add as charges quickly.
+
+### Ctrl+r
+
+Calls the SetRemoteLabor function in the Charge window
+
 ### Ctrl+g
 
 Overwrites the regular save action on the new ticket screen to automatically call the SetLabel() function on save.
 
-### Ctrl+e
+### Ctrl+t
 
-Automatically pulls in info from emails to add as charges quickly.
+Gives an input prompt for quickly inputting time into a manual ticket charge
+
+### Ctrl+Enter
+
+Quickly creates charge from timer
 
 ## MDTableOfContents.ahk
 
@@ -111,6 +131,14 @@ Cuts out the Middle Initial and/or the Last Name of the given name to return on 
 ### GetEmailBody(email,name)
 
 Uses the name of the sender of an email to crop out the email signature at the earliest point possible.
+
+### SetAsHandled()
+
+Sets the currently selected email as read and adds my category to it.
+
+### GetEmailDomain(address)
+
+Returns the domain of an email address (i.e. gmail for someone@gmail.com)
 
 ### GenerateGreeting()
 
