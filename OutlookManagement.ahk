@@ -8,6 +8,6 @@
         Send, % GenerateGreeting()
         Send, {Space}
         Send, % GetFirstName()
-        Send, ,{Enter 2}
+        Send, ,{Enter 2}!e2as{Down 2}{Enter}
     return
 }

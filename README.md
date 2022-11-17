@@ -4,7 +4,7 @@
 	* [MasterScript.ahk](#MasterScriptahk)
 		* [Ctrl+Alt+Shift+r](#CtrlAltShiftr)
 		* [Ctrl+Alt+Shift+q](#CtrlAltShiftq)
-	* [EmailGreetings.ahk](#EmailGreetingsahk)
+	* [OutlookManagement.ahk](#OutlookManagementahk)
 		* [Ctrl+r](#Ctrlr)
 	* [TicketTemplate.ahk](#TicketTemplateahk)
 		* [SetLabel()](#SetLabel())
@@ -49,7 +49,7 @@ This triggers a force reload of all scripts, to update them with edits on the fl
 
 Closes all scripts except for the Master Script, in case of anything catastrophic.
 
-## EmailGreetings.ahk
+## OutlookManagement.ahk
 
 This script is one I use to automate boring email stuff. Because Outlook doesn't let you have any fun.
 
