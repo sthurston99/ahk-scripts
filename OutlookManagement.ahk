@@ -8,6 +8,8 @@
         Send, % GenerateGreeting()
         Send, {Space}
         Send, % GetFirstName()
-        Send, ,{Enter 2}!e2as{Down 2}{Enter}
+        Send, ,{Enter 2}!e2as{Down 3}{Enter}
     return
+
+    ^n::Send, ^n!nas{Down 3}{Enter}
 }
