@@ -109,6 +109,7 @@ SetRemoteLabor() {
             Click, 230, 50
             Sleep, 100
             Send, {Tab 8}
+            Sleep, 100
             SetRemoteLabor()
         return
     }
