@@ -85,10 +85,12 @@ SetRemoteLabor() {
         ^g::
             Click, 355, 130
             Sleep, 250
-            If(WinExist("Information")) {
+            If(WinExist(Information ahk_exe RangerMSP.exe)) {
+                WinActivate
                 Send, {Enter}
             }
-            If(WinExist("Confirm")) {
+            If(WinExist(Confirm ahk_exe RangerMSP.exe)) {
+                WinActivate
                 Send, {Enter}
             }
             Send, ^g
