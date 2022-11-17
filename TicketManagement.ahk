@@ -84,11 +84,13 @@ SetRemoteLabor() {
 
         ^g::
             Click, 355, 130
-            Sleep, 50
-            If(WinExist("Information"))
+            Sleep, 250
+            If(WinExist("Information")) {
                 Send, {Enter}
-            If(WinExist("Confirm"))
+            }
+            If(WinExist("Confirm")) {
                 Send, {Enter}
+            }
             Send, ^g
         return
 
