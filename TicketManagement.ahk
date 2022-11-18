@@ -13,7 +13,7 @@ SetLabel() {
 }
 
 SetRemoteLabor() {
-    Send, +{Tab 4}Labor{Space}+9R{Enter}{Tab 3}{Enter}
+    Send, {Click 215 185}Labor{Space}+9R{Enter}{Tab 3}{Enter}
 }
 
 #If (WinActive("AHK_exe RangerMSP.exe"))
@@ -33,10 +33,10 @@ SetRemoteLabor() {
         !+c::
             Send, !+c
             Sleep, 500
-            If(WinExist("Confirm")) {
+            If(WinActive("Confirm")) {
                 Send, y
             }
-            Send, {Tab 8}
+            Click, 30 395
             SetRemoteLabor()
         return
     }
@@ -93,7 +93,7 @@ SetRemoteLabor() {
             KeyWait, Enter, D
             Click, 320, 130
             Send, % mins
-            Send, {Tab 7}
+            Click, 30 395
         return
     }
 
@@ -101,8 +101,8 @@ SetRemoteLabor() {
     {
         ^Enter::
             Click, 230, 50
-            Sleep, 100
-            Send, {Tab 8}
+            WinWaitActive, New Charge - (Labor),,500
+            Click, 30 395
             Sleep, 100
             SetRemoteLabor()
         return
