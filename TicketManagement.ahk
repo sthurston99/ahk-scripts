@@ -18,7 +18,7 @@ SetRemoteLabor() {
 
 #If (WinActive("AHK_exe RangerMSP.exe"))
 {
-    #If (WinActive("RangerMSP 28 SQL"))
+    #If (WinActive("RangerMSP"))
     {
         ^n::
             Send, ^n
