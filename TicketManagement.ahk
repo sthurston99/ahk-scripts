@@ -2,14 +2,9 @@
 #Include EmailFuncs.ahk
 
 SetLabel() {
-    Sleep, 50
     Click, 300 100
-    Click, 50 250 0 Rel
-    Loop, 50 {
-        Click, WD 1
-        Sleep, 5
-    }
-    Click
+    WinWait, DatLabelSelectChkListFrm
+    ControlClick, Simon
 }
 
 SetRemoteLabor() {
@@ -22,10 +17,9 @@ SetRemoteLabor() {
     {
         ^n::
             Send, ^n
-            Sleep, 500
-            Send, {Tab 3}
-            clipboard := "$User contacted us via $ContactType about the following issue:"
-            Send, ^v{Enter}
+            Sleep, 300
+            If WinExist("New Ticket")
+                Send, {Tab 3}{F8}{Enter}
         return
 
         ^+l::SetLabel()
@@ -33,10 +27,7 @@ SetRemoteLabor() {
         !+c::
             Send, !+c
             Sleep, 500
-            If(WinActive("Confirm")) {
-                Send, y
-            }
-            Click, 30 395
+            WinWaitActive, New Charge
             SetRemoteLabor()
         return
     }
@@ -83,17 +74,17 @@ SetRemoteLabor() {
         ^r::SetRemoteLabor()
 
         ^g::
-            Click, 355, 130
-            Sleep, 250
-            Send, ^g
+            ControlClick, TBitBtn1,,,,,NA
+            WinWaitActive, New Charge
+            ControlClick, OK,,,,,NA
         return
 
         ^t::
             InputBox, mins, Minutes:,,,150,100
             KeyWait, Enter, D
-            Click, 320, 130
+            ControlClick, TAdrockDateTimeEdit1
             Send, % mins
-            Click, 30 395
+            ControlClick, TCmtDBMemoValueSelect12
         return
     }
 
