@@ -4,7 +4,7 @@
 #If (WinActive("ahk_exe OUTLOOK.EXE"))
 {
     ^r::
-        Send, ^r
+        Send, ^+r
         Send, % GenerateGreeting()
         Send, {Space}
         Send, % GetFirstName()
