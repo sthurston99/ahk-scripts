@@ -17,9 +17,8 @@ SetRemoteLabor() {
     {
         ^n::
             Send, ^n
-            Sleep, 300
-            If WinExist("New Ticket")
-                Send, {Tab 3}{F8}{Enter}
+            WinWaitActive, ahk_class TDatNewSupportTicketsFrm
+            Send, {Tab 3}{F8}{Enter}
         return
 
         ^+l::SetLabel()
@@ -74,9 +73,15 @@ SetRemoteLabor() {
         ^r::SetRemoteLabor()
 
         ^g::
-            ControlClick, TBitBtn1
+            ControlClick, TBitBtn1,,,,,NA
             WinWaitActive, New Charge
-            ControlClick, OK,New Charge
+            Try {
+                Loop, 2 {
+                    ControlClick, OK,New Charge,,,,NA
+                }
+            } Catch e {
+                MsgBox, "Error: Unable to save ticket."
+            }
         return
 
         ^t::
@@ -84,7 +89,7 @@ SetRemoteLabor() {
             KeyWait, Enter, D
             ControlClick, TAdrockDateTimeEdit1
             Send, % mins
-            ControlClick, TCmtDBMemoValueSelect12
+            ControlClick, TCmtDBMemoValueSelect1
         return
     }
 
