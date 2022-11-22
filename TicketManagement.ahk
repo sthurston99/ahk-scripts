@@ -74,9 +74,9 @@ SetRemoteLabor() {
         ^r::SetRemoteLabor()
 
         ^g::
-            ControlClick, TBitBtn1,,,,,NA
+            ControlClick, TBitBtn1
             WinWaitActive, New Charge
-            ControlClick, OK,,,,,NA
+            ControlClick, OK,New Charge
         return
 
         ^t::
