@@ -75,13 +75,7 @@ SetRemoteLabor() {
         ^g::
             ControlClick, TBitBtn1,,,,,NA
             WinWaitActive, New Charge
-            Try {
-                Loop, 2 {
-                    ControlClick, OK,New Charge,,,,NA
-                }
-            } Catch e {
-                MsgBox, "Error: Unable to save ticket."
-            }
+            ControlClick, OK,New Charge,,,,NA
         return
 
         ^t::
