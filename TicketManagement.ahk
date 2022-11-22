@@ -75,7 +75,9 @@ SetRemoteLabor() {
         ^g::
             ControlClick, TBitBtn1,,,,,NA
             WinWaitActive, New Charge
-            ControlClick, OK,New Charge,,,,NA
+            While WinActive("ahk_class TDatSlipsDtlFrm") {
+                ControlClick, TButton1,,,,,NA
+            }
         return
 
         ^t::
