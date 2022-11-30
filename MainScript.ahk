@@ -78,9 +78,17 @@ GetEmailDomain(address:="") {
 
 ; Returns a random boilerplate email greeting
 GenerateGreeting() {
-    greetings := ["Hi","Hey"]
+    greetings := ["Hi","Hey", "Good $time"]
+    FormatTime, hour,, H
+    if (hour > 7) and (hour < 12)
+        timestr := "morning"
+    else if (hour > 12) and (hour < 18)
+        timestr := "afternoon"
+    else
+        timestr := "day"
     Random, idx, 1, greetings.Length()
-    return greetings[idx]
+    greet := greetings[idx]
+    return StrReplace(greet, "$time", timestr)
 }
 
 ; Sets my personal label onto a ticket
