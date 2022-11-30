@@ -1,7 +1,7 @@
 #NoEnv
 #SingleInstance, Force
 SendMode, Input
-SetBatchLines, -1se
+SetBatchLines, -1
 SetWorkingDir, %A_ScriptDir%.
 AHKPath:="C:\Program Files\AutoHotkey\AutoHotkey.exe"
 
