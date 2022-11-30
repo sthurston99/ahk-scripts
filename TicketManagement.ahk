@@ -87,6 +87,7 @@ SetRemoteLabor() {
             ControlClick, TAdrockDateTimeEdit1
             Send, % mins
             ControlClick, TCmtDBMemoValueSelect1
+            Send, {Down 10}
         return
     }
 
