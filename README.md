@@ -6,15 +6,14 @@
 		* [Ctrl+Alt+Shift+q](#CtrlAltShiftq)
 	* [OutlookManagement.ahk](#OutlookManagementahk)
 		* [Ctrl+r](#Ctrlr)
-	* [TicketTemplate.ahk](#TicketTemplateahk)
+	* [TicketManagement.ahk](#TicketManagementahk)
 		* [SetLabel()](#SetLabel())
 		* [SetRemoteLabor()](#SetRemoteLabor())
 		* [Ctrl+n](#Ctrln)
 		* [Ctrl+Shift+l](#CtrlShiftl)
 		* [Alt+Shift+c](#AltShiftc)
-		* [Ctrl+Shift+e](#CtrlShifte)
-		* [Ctrl+Shift+p](#CtrlShiftp)
 		* [Ctrl+e](#Ctrle)
+		* [Ctrl+p](#Ctrlp)
 		* [Ctrl+r](#Ctrlr)
 		* [Ctrl+g](#Ctrlg)
 		* [Ctrl+t](#Ctrlt)
@@ -57,7 +56,7 @@ This script is one I use to automate boring email stuff. Because Outlook doesn't
 
 This is meant to go on top of the reply shortcut. On press, it will pass through the shortcut to Outlook, opening the editor pane to reply to a message. It will then automatically copy the info from the "to" line, parse a regex on it extracting the first name, then paste it back into the body of the editor with a boilerplate greeting attached. This, combined with a signature that already includes a boilerplate sign-off, makes it so that I only have to focus on writing boilerplate body messages.
 
-## TicketTemplate.ahk
+## TicketManagement.ahk
 
 I use Ranger MSP (Previously Commit) at work as the primary ticketing software. Having to set up tickets manually all the time is a pain, and when someone calls in, you have to be quick with getting info in. These are a bunch of quick scripts to help speed up data entry.
 
@@ -81,17 +80,13 @@ Calls the SetLabel() function from the main Ranger tickets screen.
 
 Opens a new charge and automatically sets Remote Labor and focuses the text entry field.
 
-### Ctrl+Shift+e
-
-Pulls all the relevant info from a client who emails in, scraping it directly from Outlook. This is used in combination with an Outlook Macro to copy the sender name to the clipboard to be inserted back into Ranger.
-
-### Ctrl+Shift+p
-
-Gives prompts for Triaging info from phone calls and filling out the ticket with them.
-
 ### Ctrl+e
 
-Automatically pulls in info from emails to add as charges quickly.
+For Charges and New Tickets, scrapes info from currently selected email and pastes into body of ticket with light formatting. Uses COM objects and functions through emailfuncs.
+
+### Ctrl+p
+
+Gives prompts for Triaging info from phone calls and filling out the ticket with them.
 
 ### Ctrl+r
 
@@ -99,15 +94,15 @@ Calls the SetRemoteLabor function in the Charge window
 
 ### Ctrl+g
 
-Overwrites the regular save action on the new ticket screen to automatically call the SetLabel() function on save.
+Overwrites the regular save action on the new charge screen to automatically round down time.
 
 ### Ctrl+t
 
-Gives an input prompt for quickly inputting time into a manual ticket charge
+Gives an input prompt for quickly inputting time into a manual ticket charge.
 
 ### Ctrl+Enter
 
-Quickly creates charge from timer
+Quickly creates charge from timer.
 
 ## MDTableOfContents.ahk
 

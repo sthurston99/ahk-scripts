@@ -33,7 +33,7 @@ SetRemoteLabor() {
 
     #If (WinActive("New Ticket"))
     {
-        ^+e::
+        ^e::
             Send, ^a^x
             clipboard := StrReplace(clipboard, "$User", GetSender())
             clipboard := StrReplace(clipboard, "$ContactType", "email")
@@ -47,7 +47,7 @@ SetRemoteLabor() {
             SetAsHandled()
         return
 
-        ^+p::
+        ^p::
             InputBox, userName, Name:,,,150,100
             InputBox, userAccount, Account:,,,150,100
             Send, ^a^x
