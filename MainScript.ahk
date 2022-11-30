@@ -102,6 +102,9 @@ SetRemoteLabor() {
 ; Reloads Script
 ^!+r::Reload
 
+; Pauses execution
+^!+p::Pause
+
 ; VSCodium Hotkeys
 
 #If (WinActive("ahk_exe VSCodium.exe"))
