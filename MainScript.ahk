@@ -1,7 +1,7 @@
 #NoEnv
 #SingleInstance, Force
 SendMode, Input
-SetBatchLines, -1
+SetBatchLines, -1se
 SetWorkingDir, %A_ScriptDir%.
 AHKPath:="C:\Program Files\AutoHotkey\AutoHotkey.exe"
 
@@ -9,99 +9,123 @@ AHKPath:="C:\Program Files\AutoHotkey\AutoHotkey.exe"
 ; Previously EmailFuncs.ahk and parts of TicketManagement.ahk
 
 ; Fetches current selected email within Outlook
-GetCurrentEmail() {
-    return ComObjActive("Outlook.Application").ActiveExplorer.Selection.Item(1)
+GetCurrentEmail()
+{
+    Return ComObjActive("Outlook.Application").ActiveExplorer.Selection.Item(1)
 }
 
 ; Fetches the Full Name of the sender of the COM MailItem Object, or the currently selected email
-GetSender(email:="") {
-    if(email = "") {
+GetSender(email:="")
+{
+    If(email = "")
+    {
         email := GetCurrentEmail()
     }
-    return email.SenderName
+    Return email.SenderName
 }
 
 ; Converts a Full Name into a Standard Name by removing the Middle Initial
 ; If none passed in, defaults to sender of Current Email
-GetStandardName(name:="") {
-    if(name = "") {
+GetStandardName(name:="")
+{
+    If(name = "")
+    {
         name := GetSender()
     }
-    return RegExReplace(name,"\w\. ")
+    Return RegExReplace(name,"\w\. ")
 }
 
 ; Extracts the first name from a Standard Name
 ; If none, defaults to sender of Current email
-GetFirstName(name:="") {
-    if(name = "") {
+GetFirstName(name:="")
+{
+    If(name = "")
+    {
         name := GetStandardName()
     }
-    return RegExReplace(name,"\s.*")
+    Return RegExReplace(name,"\s.*")
 }
 
 ; Trims out the contents of an email after the name provided
 ; If no sender provided, passes empty string internally
 ; If no email provided, uses current selected email in outlook
-GetEmailBody(email:="",name:="") {
+GetEmailBody(email:="",name:="")
+{
     whitespace := " `t`n`r"
     regexstr := "s)(?=From:|" . GetFirstName(name) . "|" . GetStandardName(name) . "|"
     linecleaner := "\s{2,}"
     
-    if(email = "") {
+    If(email = "")
+    {
         email := GetCurrentEmail().Body
     }
 
-    if(name = "") {
+    If(name = "")
+    {
         regexstr := regexstr . GetSender() . ").*"
-    } else {
+    }
+    Else
+    {
         regexstr := regexstr . name . ").*"
     }
-    return Trim(RegExReplace(RegExReplace(email, regexstr), linecleaner, "`n`n"), whitespace)
+    Return Trim(RegExReplace(RegExReplace(email, regexstr), linecleaner, "`n`n"), whitespace)
 }
 
 ; Sets the Category of the email to mark that it was handled by me, and marks as read
-SetAsHandled() {
+SetAsHandled()
+{
     email := GetCurrentEmail()
     email.Categories := "ST"
     email.UnRead := False
-    return
+    Return
 }
 
 ; Returns the domain of an email address
-GetEmailDomain(address:="") {
-    if(address = "") {
+GetEmailDomain(address:="")
+{
+    If(address = "")
+    {
         address := GetCurrentEmail().SenderEmailAddress
     }
     RegExMatch(address, "(?<=@).*(?=\.)", account)
-    return account
+    Return account
 }
 
 ; Returns a random boilerplate email greeting
-GenerateGreeting() {
+GenerateGreeting()
+{
     greetings := ["Hi","Hey", "Good $time"]
     FormatTime, hour,, H
-    if (hour > 7) and (hour < 12)
+    If (hour > 7) and (hour < 12)
+    {
         timestr := "morning"
-    else if (hour > 12) and (hour < 18)
+    }
+    Else If (hour > 12) and (hour < 18)
+    {
         timestr := "afternoon"
-    else
+    }
+    Else
+    {
         timestr := "day" ; In case hour is outside of normal operating hours
+    }
     Random, idx, 1, greetings.Length()
     greet := greetings[idx]
-    return StrReplace(greet, "$time", timestr)
+    Return StrReplace(greet, "$time", timestr)
 }
 
 ; Sets my personal label onto a ticket
 ;; Originally made to make the task repeatable, however is currently only used for one hotkey
 ;; Will likely need to refactor or move actual code to hotkey
-SetLabel() {
+SetLabel()
+{
     Click, 300 100
     WinWait, DatLabelSelectChkListFrm
     ControlClick, Simon
 }
 
 ; Sets the labor type of a charge to be remote
-SetRemoteLabor() {
+SetRemoteLabor()
+{
     Send, {Click 215 185}Labor{Space}+9R{Enter}{Tab 3}{Enter}
 }
 
@@ -147,7 +171,7 @@ SetRemoteLabor() {
         RegExMatch(clipboard, "m)^# (?!Table of Contents)(.*\R)*.*", out)
         clipboard := "# Table of Contents`r`n" . outstr . out
         Send, ^v
-    return
+    Return
 }
 
 ; Outlook Hotkeys
@@ -160,7 +184,7 @@ SetRemoteLabor() {
         Send, !has{Down 3}{Enter}{Up 2}
         Send, % GenerateGreeting() . " " . GetFirstName(GetStandardName(email.SenderName)) . ","
         Send, {Enter 2}
-    return
+    Return
 
     ; Autoapplies email signature on new emails
     ^n::Send, ^n!nas{Down 3}{Enter}
@@ -177,7 +201,7 @@ SetRemoteLabor() {
             Send, ^n
             WinWaitActive, ahk_class TDatNewSupportTicketsFrm
             Send, {Tab 3}{F8}{Enter}
-        return
+        Return
 
         ; Calls the SetLabel Function
         ^+l::SetLabel()
@@ -188,7 +212,7 @@ SetRemoteLabor() {
             Sleep, 500
             WinWaitActive, New Charge
             SetRemoteLabor()
-        return
+        Return
     }
 
     #If (WinActive("New Ticket"))
@@ -206,7 +230,7 @@ SetRemoteLabor() {
             KeyWait, Enter, D
             Send, {Enter}{Tab 3}^g
             SetAsHandled()
-        return
+        Return
 
         ; Prompts for input for quick phone triage
         ^p::
@@ -220,7 +244,7 @@ SetRemoteLabor() {
             Send, %userAccount%
             KeyWait, Enter, D
             Send, {Tab 3}
-        return
+        Return
     }
 
     #If (WinActive("New Charge - (Labor)"))
@@ -231,7 +255,7 @@ SetRemoteLabor() {
             Send, {Space}Emailed in:{Enter}
             Send, % GetEmailBody()
             SetAsHandled()
-        return
+        Return
 
         ; Manually calls SetRemoteLabor function in case of error
         ^r::SetRemoteLabor()
@@ -240,10 +264,11 @@ SetRemoteLabor() {
         ^g::
             ControlClick, TBitBtn1,,,,,NA
             WinWaitActive, New Charge
-            While WinActive("ahk_class TDatSlipsDtlFrm") {
+            While WinActive("ahk_class TDatSlipsDtlFrm")
+            {
                 ControlClick, TButton1,,,,,NA
             }
-        return
+        Return
 
         ; Prompts for minutes spent on charge for quick input
         ^t::
@@ -253,7 +278,7 @@ SetRemoteLabor() {
             Send, % mins
             ControlClick, TCmtDBMemoValueSelect1
             Send, {Down 10}
-        return
+        Return
     }
 
     #If (WinActive("Timer"))
@@ -265,6 +290,6 @@ SetRemoteLabor() {
             Click, 30 395
             Sleep, 100
             SetRemoteLabor()
-        return
+        Return
     }
 }
