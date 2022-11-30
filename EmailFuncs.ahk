@@ -1,3 +1,4 @@
+#NoEnv
 #SingleInstance Force
 
 ; Fetches current selected email within Outlook

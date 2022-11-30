@@ -1,3 +1,4 @@
+#NoEnv
 #SingleInstance Force
 #If (WinActive("ahk_exe VSCodium.exe"))
 {

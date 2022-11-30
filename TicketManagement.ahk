@@ -1,3 +1,4 @@
+#NoEnv
 #SingleInstance Force
 #Include EmailFuncs.ahk
 
