@@ -85,7 +85,7 @@ GenerateGreeting() {
     else if (hour > 12) and (hour < 18)
         timestr := "afternoon"
     else
-        timestr := "day"
+        timestr := "day" ; In case hour is outside of normal operating hours
     Random, idx, 1, greetings.Length()
     greet := greetings[idx]
     return StrReplace(greet, "$time", timestr)
