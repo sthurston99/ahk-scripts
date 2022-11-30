@@ -5,10 +5,12 @@
 {
     ^r::
         Send, ^+r
+        Sleep, 400
+        Send, !e2as{Down 3}{Enter}{Up 2}
         Send, % GenerateGreeting()
         Send, {Space}
         Send, % GetFirstName()
-        Send, ,{Enter 2}!e2as{Down 3}{Enter}
+        Send, ,{Enter 2}
     return
 
     ^n::Send, ^n!nas{Down 3}{Enter}
