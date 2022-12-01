@@ -11,8 +11,8 @@
 		* [SetAsHandled](#SetAsHandled)
 		* [GetEmailDomain](#GetEmailDomain)
 		* [GenerateGreeting](#GenerateGreeting)
-		* [SetLabel()](#SetLabel())
-		* [SetRemoteLabor()](#SetRemoteLabor())
+		* [SetLabel](#SetLabel)
+		* [SetRemoteLabor](#SetRemoteLabor)
 	* [General Hotkeys](#General+Hotkeys)
 		* [Ctrl+Alt+Shift+r](#CtrlAltShiftr)
 		* [Ctrl+Alt+Shift+p](#CtrlAltShiftp)
@@ -36,7 +36,7 @@
 			* [Ctrl+t](#Ctrlt)
 		* [Timer](#Timer)
 			* [Ctrl+Enter](#CtrlEnter)
-
+Shortcut to automatically create charge from timer
 # AutoHotkey Scripts
 
 I do a lot of my work with a keyboard. And because of that, I do a lot of repetetive things with a keyboard. To reduce the amount of keystrokes I have to send, I made this script (which was originally several scripts but that was getting annoying) to simplify a lot of the actions I needed to perform. And now this thing automates a good amount of the documentation I have to do while working, which, is pretty sweet. Here's a brief summary of all the cool stuff that this script does, and the reasoning behind it.
