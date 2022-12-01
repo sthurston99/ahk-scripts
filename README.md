@@ -101,13 +101,13 @@ tl;dr Returns a random boilerplate email greeting
 
 Pulls a random greeting from a preset list to be used at the opening of an email. Includes a generic timeframe determination script to determine whether it's morning/afternoon for the sake of filling out time-based greetings.
 
-### SetLabel()
+### SetLabel
 
 tl;dr Sets my personal label onto a ticket
 
 Uses Control Hooks within Ranger to automatically label a ticket as mine
 
-### SetRemoteLabor()
+### SetRemoteLabor
 
 tl;dr Sets the labor type of a charge to be remote
 
