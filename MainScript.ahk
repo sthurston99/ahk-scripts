@@ -208,7 +208,7 @@ SetRemoteLabor()
         ; Calls the SetLabel Function
         ^+l::SetLabel()
 
-        ; Creates a new charge and 
+        ; Creates a new charge and automatically calls SetRemoteLabor
         !+c::
             Send, !+c
             Sleep, 500
@@ -232,7 +232,7 @@ SetRemoteLabor()
             Send, +{Tab 3}
             Send, %userAccount%
             KeyWait, Enter, D
-            Send, {Enter}{Tab 3}^g
+            Send, {Enter}{Tab 3}
             SetAsHandled()
         Return
 
