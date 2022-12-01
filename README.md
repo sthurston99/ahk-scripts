@@ -107,3 +107,61 @@ Rebinds Reply to Reply All, and automatically prefills a standard greeting and a
 Automatically applies my email signature to any new email.
 
 ## RangerMSP
+
+Our ticketing software at my work is RangerMSP, formerly Commit. It's got plenty of quirks, but it does have a pretty good structure for hooking into with automations. So, I've done that, a lot, to make my life just a smidge easier when having to document all of my stuff.
+
+### Main Window
+
+My primary focused Window during the day is the main Ticket List, so many of the shortcuts here have to do with creating or modifying tickets in some way.
+
+#### Ctrl+n
+
+Creates a new ticket and automatically prefills the body text from the F8 menu, using the boilerplate ticket text I have stored there.
+
+#### Ctrl+Shift+l
+
+Applies my label to the currently selected ticket from the Label dropdown.
+
+#### Alt+Shift+c
+
+When making a new charge, Automatically applies the Remote Labor labor type, as that is the primary type used in my day-to-day work.
+
+### New Ticket
+
+These hotkeys all run when the New Ticket window is open and focused, and they allow you to put in ticket triage details quickly to move onto actual troubleshooting.
+
+#### Ctrl+e
+
+Calls GetEmailBody to scrape info from an email into a ticket to prefill a ticket.
+
+#### Ctrl+p
+
+Gives 2 input prompts for Name and Account to prefill basic info before triaging the issue.
+
+### New Charge
+
+By far the most time I spend in Ranger is inputting and editing charges. There's plenty of tiny little annoying things that you have to do, and my goal is to get rid of most if not all of them.
+
+#### Ctrl+e
+
+Pulls email info via GetEmailBody into a charge.
+
+#### Ctrl+r
+
+Quickly sets labor type as remote in case most of the other charge creation methods that call it fail.
+
+#### Ctrl+g
+
+Rounds down time when saving a charge. Does not handle all error prompts automatically, but will usually handle at least one of them.
+
+#### Ctrl+t
+
+Adds a quick text prompt that allows you to fill in the amount of minutes you spent on a charge.
+
+### Timer
+
+The Timer function in Ranger is usually a pretty good tool However, the window it opens for it is almost always terrible to use with keyboard-focused inputs. So I made these scripts to make it better.
+
+#### Ctrl+Enter
+
+Shortcut to automatically create charge from timer.
