@@ -221,7 +221,9 @@ SetRemoteLabor()
     {
         ; Autofills a new ticket with the contents of an email
         ^e::
+            clipboard := ""
             Send, ^a^x
+            ClipWait
             clipboard := StrReplace(clipboard, "$User", GetCurrentSender())
             clipboard := StrReplace(clipboard, "$ContactType", "email")
             userAccount := SubStr(GetEmailDomain(), 1, 4)

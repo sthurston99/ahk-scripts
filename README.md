@@ -12,46 +12,67 @@ As with any software project, you need to have a lot of base functions as the bu
 
 tl;dr Fetches current selected email within Outlook
 
-This uses the windows COM interface to fetch the currently selected email in Outlook. 
+This uses the windows COM interface to fetch the currently selected email in Outlook. It returns it as the standard MailItem object so that further manipulation can be done to it.
 
 ### GetSender
 
 tl;dr Fetches the Full Name of the sender of the COM MailItem Object
 
+Simply takes a MailItem object as input and returns its SenderName property.
+
 ### GetCurrentSender
 
 tl;dr Wrapper for GetSender to get Sender from Current Email
+
+Calls GetSender with the parameter of GetCurrentEmail to return the current email's sender.
 
 ### GetStandardName
 
 tl;dr Converts a Full Name into a Standard Name by removing the Middle Initial
 
+Takes a full name (First Name, Middle Initial/Name, Last Name) and removes the middle initial from the string.
+
 ### GetFirstName
 
 tl;dr Extracts the first name from a Standard Name
 
+Takes a standardized name (Firstname Lastname) and crops it to just the first name.
 
-; Trims out the contents of an email after the name provided
-; If no sender provided, passes empty string internally
-; If no email provided, uses current selected email in outlook
-GetEmailBody(email:="",name:="")
+### GetEmailBody
 
-; Sets the Category of the email to mark that it was handled by me, and marks as read
-SetAsHandled()
+tl;dr Trims out the contents of an email after the name provided
 
-; Returns the domain of an email address
-GetEmailDomain(address:="")
+Takes an email body and a senders name as input, and constructs a regex string to remove all contents of an email after the senders name is detected as a hacky way to remove email signatures.
 
-; Returns a random boilerplate email greeting
-GenerateGreeting()
+### SetAsHandled
 
-; Sets my personal label onto a ticket
-;; Originally made to make the task repeatable, however is currently only used for one hotkey
-;; Will likely need to refactor or move actual code to hotkey
-SetLabel()
+tl;dr Sets the Category of the email to mark that it was handled by me, and marks as read
 
-; Sets the labor type of a charge to be remote
-SetRemoteLabor()
+Sends a few commands to the current email in Outlook to set as read with my initials as the category within our shared email.
+
+### GetEmailDomain
+
+tl;dr Returns the domain of an email address
+
+Takes an email string as input, returns the top level subdomain as the output.
+
+### GenerateGreeting
+
+tl;dr Returns a random boilerplate email greeting
+
+Pulls a random greeting from a preset list to be used at the opening of an email. Includes a generic timeframe determination script to determine whether it's morning/afternoon for the sake of filling out time-based greetings.
+
+### SetLabel()
+
+tl;dr Sets my personal label onto a ticket
+
+Uses Control Hooks within Ranger to automatically label a ticket as mine
+
+### SetRemoteLabor()
+
+tl;dr Sets the labor type of a charge to be remote
+
+Quickly adjusts the labor type of a ticket to Remote when focused on the charge description window.
 
 ## General Hotkeys
 
