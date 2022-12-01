@@ -76,8 +76,34 @@ Quickly adjusts the labor type of a ticket to Remote when focused on the charge 
 
 ## General Hotkeys
 
+These Hotkeys are mostly about managing the script and the execution thereof itself. These aren't super special, so here they are in brief:
+
+### Ctrl+Alt+Shift+r
+
+Reloads the script to refresh changes quickly
+
+### Ctrl+Alt+Shift+p
+
+Pauses the current script's execution for quick error management
+
 ## VSCodium
 
+My primary text editor while at work is VSCodium. It's pretty handy but does not actually do everything magically. These scripts are mostly for automating some text processing that I do a lot within it.
+
+### Alt+Shift+m
+
+Given a Markdown file with Headers, generates a Table of Context from said headers, then places it at the opening of the file.
+
 ## Outlook
+
+Most businesses use Microsoft Outlook as their email program. We also have to deal with it here. There's a lot of repetetive nonsense that Outlook just doesn't handle by default, so I've added a few things to automate them.
+
+### Ctrl+r
+
+Rebinds Reply to Reply All, and automatically prefills a standard greeting and applies my signature.
+
+### Ctrl+n
+
+Automatically applies my email signature to any new email.
 
 ## RangerMSP
