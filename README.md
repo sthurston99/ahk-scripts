@@ -1,5 +1,6 @@
 # Table of Contents
 
+* [AutoHotkey Scripts](#AutoHotkey+Scripts)
 	* [Functions](#Functions)
 		* [GetCurrentEmail](#GetCurrentEmail)
 		* [GetSender](#GetSender)

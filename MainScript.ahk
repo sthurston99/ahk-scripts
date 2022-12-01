@@ -146,7 +146,9 @@ SetRemoteLabor()
     ; Generates a Table of Contents using Headers of a Markdown File
     ;; Should work fine for general applications but is untested outside of current usecase context
     ^!m::
+        clipboard := ""
         Send, ^a^x
+        ClipWait
         instr := RegExReplace(clipboard, "m)^(?!#+.*).*\R")
         instr := RegExReplace(instr, "^.*[^\s]")
         outstr := ""
