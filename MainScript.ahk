@@ -97,11 +97,11 @@ GenerateGreeting()
 {
     greetings := ["Hi","Hey", "Good $time"]
     FormatTime, hour,, H
-    If (hour > 7) and (hour < 12)
+    If (hour >= 7) and (hour < 12)
     {
         timestr := "morning"
     }
-    Else If (hour > 12) and (hour < 18)
+    Else If (hour >= 12) and (hour < 18)
     {
         timestr := "afternoon"
     }
