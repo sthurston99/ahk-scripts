@@ -15,13 +15,15 @@ GetCurrentEmail()
 }
 
 ; Fetches the Full Name of the sender of the COM MailItem Object, or the currently selected email
-GetSender(email:="")
+GetSender(email)
 {
-    If(email = "")
-    {
-        email := GetCurrentEmail()
-    }
     Return email.SenderName
+}
+
+; Wrapper for GetSender to get Sender from Current Email
+GetCurrentSender()
+{
+    Return GetSender(GetCurrentEmail())
 }
 
 ; Converts a Full Name into a Standard Name by removing the Middle Initial
@@ -30,7 +32,7 @@ GetStandardName(name:="")
 {
     If(name = "")
     {
-        name := GetSender()
+        name := GetCurrentSender()
     }
     Return RegExReplace(name,"\w\. ")
 }
@@ -62,13 +64,13 @@ GetEmailBody(email:="",name:="")
 
     If(name = "")
     {
-        regexstr := regexstr . GetSender() . ").*"
+        regexstr := regexstr . GetCurrentSender() . ").*"
     }
     Else
     {
         regexstr := regexstr . name . ").*"
     }
-    Return Trim(RegExReplace(RegExReplace(email, regexstr), linecleaner, "`n`n"), whitespace)
+    Return StrReplace(Trim(RegExReplace(RegExReplace(email, regexstr), linecleaner, "`n`n"), whitespace), "`t", " ")
 }
 
 ; Sets the Category of the email to mark that it was handled by me, and marks as read
@@ -206,7 +208,7 @@ SetRemoteLabor()
         ; Calls the SetLabel Function
         ^+l::SetLabel()
 
-        ; Creates a new charge and 
+        ; Creates a new charge and automatically calls SetRemoteLabor
         !+c::
             Send, !+c
             Sleep, 500
@@ -219,8 +221,10 @@ SetRemoteLabor()
     {
         ; Autofills a new ticket with the contents of an email
         ^e::
+            clipboard := ""
             Send, ^a^x
-            clipboard := StrReplace(clipboard, "$User", GetSender())
+            ClipWait
+            clipboard := StrReplace(clipboard, "$User", GetCurrentSender())
             clipboard := StrReplace(clipboard, "$ContactType", "email")
             userAccount := SubStr(GetEmailDomain(), 1, 4)
             Send, ^v
@@ -228,15 +232,17 @@ SetRemoteLabor()
             Send, +{Tab 3}
             Send, %userAccount%
             KeyWait, Enter, D
-            Send, {Enter}{Tab 3}^g
+            Send, {Enter}{Tab 3}
             SetAsHandled()
         Return
 
         ; Prompts for input for quick phone triage
         ^p::
+            clipboard := ""
             InputBox, userName, Name:,,,150,100
             InputBox, userAccount, Account:,,,150,100
             Send, ^a^x
+            ClipWait
             clipboard := StrReplace(clipboard, "$User", userName)
             clipboard := StrReplace(clipboard, "$ContactType", "phone")
             Send, ^v
