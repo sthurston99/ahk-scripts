@@ -111,7 +111,7 @@ GenerateGreeting()
     }
     Random, idx, 1, greetings.Length()
     greet := greetings[idx]
-    If greet != ""
+    If greet !== ""
     {
         greet := greet . " "
     }
