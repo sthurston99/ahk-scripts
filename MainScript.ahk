@@ -95,7 +95,7 @@ GetEmailDomain(address:="")
 ; Returns a random boilerplate email greeting
 GenerateGreeting()
 {
-    greetings := ["Hi","Hey", "Good $time"]
+    greetings := ["","Hi","Hey","Good $time"]
     FormatTime, hour,, H
     If (hour >= 7) and (hour < 12)
     {
@@ -111,6 +111,10 @@ GenerateGreeting()
     }
     Random, idx, 1, greetings.Length()
     greet := greetings[idx]
+    If greet != ""
+    {
+        greet := greet . " "
+    }
     Return StrReplace(greet, "$time", timestr)
 }
 
@@ -185,7 +189,7 @@ SetRemoteLabor()
     ^r::
         GetCurrentEmail().replyall().Display()
         Send, !has2{Down 3}{Enter}{Up 2}
-        Send, % GenerateGreeting() . " " . GetFirstName(GetStandardName(email.SenderName)) . ","
+        Send, % GenerateGreeting() . GetFirstName(GetStandardName(email.SenderName)) . ","
         Send, {Enter 2}
     Return
 
