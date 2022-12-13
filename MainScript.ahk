@@ -188,13 +188,13 @@ SetRemoteLabor()
     ; Generates a reply email and autofills with standard greeting and email signature
     ^r::
         GetCurrentEmail().replyall().Display()
-        Send, !has2{Down 3}{Enter}{Up 2}
+        Send, !has2{Down 4}{Enter}{Up 2}
         Send, % GenerateGreeting() . GetFirstName(GetStandardName(email.SenderName)) . ","
         Send, {Enter 2}
     Return
 
     ; Autoapplies email signature on new emails
-    ^n::Send, ^n!nas2{Down 3}{Enter}
+    ^n::Send, ^n!nas2{Down 4}{Enter}
 }
 
 ; RangerMSP Hotkeys
