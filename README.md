@@ -43,6 +43,12 @@ I do a lot of my work with a keyboard. And because of that, I do a lot of repete
 
 Also, a lot of this script is heavily specific to me, my workflow, and the details within my environment. It should only take a little bit of tooling to make it fit what you're doing, but if you're modifying this, go over it with a fine tooth comb and test everything before actually doing live-fire testing on it. I've almost caused so many problems by not running this in a test environment during the initial stages of development, and you never want to mess with how bad AHK can mess up your situation.
 
+**The main three pieces to modify to fit this to your own workflow are: the [SetLabel](#SetLabel) and [SetAsHandled](#SetAsHandled) functions, and the hotkeys that exist for [Outlook](#Outlook).**
+
+These are the 3 places that I know for sure have components that are specific to setting things *as me*. As in, setting my email signature, setting my label, and setting my email category.
+
+The rest of it is up to you to tool into whatever uses you need. Have fun.
+
 ## Functions
 
 As with any software project, you need to have a lot of base functions as the building blocks for automation. Luckily, with hotkeys, you don't actually need as many functions, since many of the actions you need to perform per-hotkey are unique. However, that does not completely let you off when a lot of what you're doing is similar, so I've created a small set of functions that perform some of the more repetetive tasks, and built them in a way that they are hopefully extensible to future applications.
