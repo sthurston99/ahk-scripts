@@ -131,7 +131,8 @@ SetLabel()
 ; Sets the labor type of a charge to be remote
 SetRemoteLabor()
 {
-    Send, {Click 215 185}Labor{Space}+9R{Enter}{Tab 3}{Enter}
+    ControlClick, TSOEdit1
+    Send, Labor{Space}+9R{Enter}{Tab 3}{Enter}
 }
 
 ; General Hotkeys
