@@ -276,6 +276,10 @@ SetRemoteLabor()
         ^g::
             ControlClick, TBitBtn1,,,,,NA
             WinWaitActive, New Charge
+            If(WinActive("ahk_class TMessageForm"))
+            {
+                ControlClick, TButton1,,,,,NA
+            }
             While WinActive("ahk_class TDatSlipsDtlFrm")
             {
                 ControlClick, TButton1,,,,,NA
