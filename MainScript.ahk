@@ -290,9 +290,13 @@ SetRemoteLabor()
         ^t::
             InputBox, mins, Minutes:,,,150,100
             KeyWait, Enter, D
-            ControlClick, TAdrockDateTimeEdit1
-            Send, % mins
-            ControlClick, TCmtDBMemoValueSelect1
+            If(mins < 10)
+            {
+                mins := "0" . mins
+            }
+            mins := "00" . mins
+            ControlSend, TAdrockDateTimeEdit1, %mins%
+            ControlFocus, TCmtDBMemoValueSelect1
             Send, {Down 10}
         Return
     }
