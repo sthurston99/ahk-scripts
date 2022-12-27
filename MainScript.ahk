@@ -4,6 +4,10 @@ SendMode, Input
 SetWorkingDir, %A_ScriptDir%.
 AHKPath:="C:\Program Files\AutoHotkey\AutoHotkey.exe"
 
+; ahk-scripts by Simon Thurston
+; 1.0.0 (December 27, 2022)
+; Made with love in New Jersey
+
 ; Function Definitions
 ; Previously EmailFuncs.ahk and parts of TicketManagement.ahk
 
