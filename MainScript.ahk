@@ -239,7 +239,7 @@ SetRemoteLabor()
             clipboard := StrReplace(clipboard, "$ContactType", "email")
             userAccount := SubStr(GetEmailDomain(), 1, 4)
             Send, ^v
-            Send, % GetEmailBody()
+            SendRaw, % GetEmailBody()
             Send, +{Tab 3}
             Send, %userAccount%
             KeyWait, Enter, D
@@ -270,7 +270,7 @@ SetRemoteLabor()
         ^e::
             Send, % GetFirstName()
             Send, {Space}Emailed in:{Enter}
-            Send, % GetEmailBody()
+            SendRaw, % GetEmailBody()
             SetAsHandled()
         Return
 
