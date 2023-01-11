@@ -82,6 +82,7 @@ SetAsHandled()
     email := GetCurrentEmail()
     email.Categories := "ST"
     email.UnRead := False
+    email.Save
     Return
 }
 
