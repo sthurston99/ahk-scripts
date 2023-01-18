@@ -1,7 +1,5 @@
-#NoEnv
-#SingleInstance, Force
-SendMode, Input
-SetWorkingDir, %A_ScriptDir%.
+SendMode(Input)
+SetWorkingDir(%A_ScriptDir%)
 AHKPath:="C:\Program Files\AutoHotkey\AutoHotkey.exe"
 
 ; ahk-scripts by Simon Thurston
@@ -101,7 +99,7 @@ GetEmailDomain(address:="")
 GenerateGreeting()
 {
     greetings := ["","Hi","Hey","Good $time"]
-    FormatTime, hour,, H
+    FormatTime(hour,,H)
     If (hour >= 7) and (hour < 12)
     {
         timestr := "morning"
@@ -114,7 +112,7 @@ GenerateGreeting()
     {
         timestr := "day" ; In case hour is outside of normal operating hours
     }
-    Random, idx, 1, greetings.Length()
+    Random(idx, 1, greetings.Length())
     greet := greetings[idx]
     If (greet != "")
     {
@@ -128,16 +126,16 @@ GenerateGreeting()
 ;; Will likely need to refactor or move actual code to hotkey
 SetLabel()
 {
-    Click, 300 100
-    WinWait, DatLabelSelectChkListFrm
-    ControlClick, Simon
+    Click(300,100)
+    WinWait(DatLabelSelectChkListFrm)
+    ControlClick(Simon)
 }
 
 ; Sets the labor type of a charge to be remote
 SetRemoteLabor()
 {
-    ControlClick, TSOEdit1
-    Send, Labor{Space}+9R{Enter}{Tab 3}{Enter}
+    ControlClick(TSOEdit1)
+    Send(Labor{Space}+9R{Enter}{Tab 3}{Enter})
 }
 
 ; General Hotkeys
@@ -150,11 +148,11 @@ SetRemoteLabor()
 
 ; VSCodium Hotkeys
 
-#If (WinActive("ahk_exe VSCodium.exe"))
+#HotIf (WinActive("ahk_exe VSCodium.exe"))
 {
     ; Generates a Table of Contents using Headers of a Markdown File
     ;; Should work fine for general applications but is untested outside of current usecase context
-    ^!m::
+    ^!m {
         clipboard := ""
         Send, ^a^x
         ClipWait
@@ -184,51 +182,54 @@ SetRemoteLabor()
         RegExMatch(clipboard, "m)^# (?!Table of Contents)(.*\R)*.*", out)
         clipboard := "# Table of Contents`r`n" . outstr . out
         Send, ^v
-    Return
+        Return
+    }
 }
 
 ; Outlook Hotkeys
 
-#If (WinActive("ahk_exe OUTLOOK.EXE"))
+#HotIf (WinActive("ahk_exe OUTLOOK.EXE"))
 {
     ; Generates a reply email and autofills with standard greeting and email signature
-    ^r::
+    ^r {
         GetCurrentEmail().replyall().Display()
-        Send, !has2{Down 4}{Enter}{Up 2}
-        Send, % GenerateGreeting() . GetFirstName(GetStandardName(email.SenderName)) . ","
-        Send, {Enter 2}
-    Return
+        Send(!has2{Down 4}{Enter}{Up 2})
+        Send(% GenerateGreeting() . GetFirstName(GetStandardName(email.SenderName)) . ",")
+        Send({Enter 2})
+        Return
+    }
 
     ; Autoapplies email signature on new emails
-    ^n::Send, ^n!nas2{Down 4}{Enter}
+    ^n {Send, ^n!nas2{Down 4}{Enter}}
 }
 
 ; RangerMSP Hotkeys
 
-#If (WinActive("AHK_exe RangerMSP.exe"))
+#HotIf (WinActive("AHK_exe RangerMSP.exe"))
 {
-    #If (WinActive("RangerMSP"))
+    #HotIf (WinActive("RangerMSP"))
     {
         ; Creates a new ticket prefilling text
-        ^n::
+        ^n {
             Send, ^n
             WinWaitActive, ahk_class TDatNewSupportTicketsFrm
             Send, {Tab 3}{F8}{Enter}
-        Return
-
+            Return
+        }
         ; Calls the SetLabel Function
-        ^+l::SetLabel()
+        ^+l{SetLabel()}
 
         ; Creates a new charge and automatically calls SetRemoteLabor
-        !+c::
+        !+c {
             Send, !+c
             Sleep, 500
             WinWaitActive, New Charge
             SetRemoteLabor()
-        Return
+            Return
+        }
     }
 
-    #If (WinActive("New Ticket"))
+    #HotIf (WinActive("New Ticket"))
     {
         ; Autofills a new ticket with the contents of an email
         ^e::
@@ -264,7 +265,7 @@ SetRemoteLabor()
         Return
     }
 
-    #If (WinActive("New Charge - (Labor)"))
+    #HotIf (WinActive("New Charge - (Labor)"))
     {
         ; Pastes email content into body of charge
         ^e::
@@ -306,7 +307,7 @@ SetRemoteLabor()
         Return
     }
 
-    #If (WinActive("Timer"))
+    #HotIf (WinActive("Timer"))
     {
         ; Quick close of timer and creation of remote charge
         ^Enter::
