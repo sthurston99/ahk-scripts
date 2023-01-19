@@ -152,36 +152,36 @@ SetRemoteLabor()
 {
     ; Generates a Table of Contents using Headers of a Markdown File
     ;; Should work fine for general applications but is untested outside of current usecase context
-    ^!m {
+    ^!m:: {
         clipboard := ""
-        Send, ^a^x
+        Send(^a^x)
         ClipWait
         instr := RegExReplace(clipboard, "m)^(?!#+.*).*\R")
         instr := RegExReplace(instr, "^.*[^\s]")
         outstr := ""
-        Loop, Parse, instr, `n
+        Loop(Parse, instr, `n)
         {
             RegExReplace(A_LoopField, "#", "#", rCount)
             rCount -= 1
             tspace :=
             Loop, %rCount%
                 tspace := tspace . A_Tab
-            str := % A_LoopField
+            str := %A_LoopField%
             ; Replace headings with bullets
-            str := % RegExReplace(str, "#+", tspace . "*")
+            str := %RegExReplace(str, "#+", tspace . "*")%
             ; Place headings into Markdown Link Format
-            str := % RegExReplace(str, "(?<=\*\s)(.*)", "[$1](#$1)")
+            str := %RegExReplace(str, "(?<=\*\s)(.*)", "[$1](#$1)")%
             ; Trim Newlines
-            str := % RegExReplace(str, "m)\R")
+            str := %RegExReplace(str, "m)\R")%
             ; Condense filenames and hotkeys to links
-            str := % RegExReplace(str, "[\.+](?!\S+\])")
+            str := %RegExReplace(str, "[\.+](?!\S+\])")%
             ; Replace spaces with plusses
-            str := % RegExReplace(str, "#(\w+)\s(\w+)", "#$1+$2")
+            str := %RegExReplace(str, "#(\w+)\s(\w+)", "#$1+$2")%
             outstr := outstr . str . "`n"
         }
         RegExMatch(clipboard, "m)^# (?!Table of Contents)(.*\R)*.*", out)
         clipboard := "# Table of Contents`r`n" . outstr . out
-        Send, ^v
+        Send(^v)
         Return
     }
 }
@@ -191,16 +191,16 @@ SetRemoteLabor()
 #HotIf (WinActive("ahk_exe OUTLOOK.EXE"))
 {
     ; Generates a reply email and autofills with standard greeting and email signature
-    ^r {
-        GetCurrentEmail().replyall().Display()
+    ^r:: {
+        GetCurrentEmail().ReplyAll.Display
         Send(!has2{Down 4}{Enter}{Up 2})
-        Send(% GenerateGreeting() . GetFirstName(GetStandardName(email.SenderName)) . ",")
+        Send(%GenerateGreeting() . GetFirstName() . ","%)
         Send({Enter 2})
         Return
     }
 
     ; Autoapplies email signature on new emails
-    ^n {Send, ^n!nas2{Down 4}{Enter}}
+    ^n::Send(^n!nas2{Down 4}{Enter})
 }
 
 ; RangerMSP Hotkeys
@@ -210,20 +210,20 @@ SetRemoteLabor()
     #HotIf (WinActive("RangerMSP"))
     {
         ; Creates a new ticket prefilling text
-        ^n {
-            Send, ^n
-            WinWaitActive, ahk_class TDatNewSupportTicketsFrm
-            Send, {Tab 3}{F8}{Enter}
+        ^n:: {
+            Send(^n)
+            WinWaitActive(ahk_class TDatNewSupportTicketsFrm)
+            Send({Tab 3}{F8}{Enter})
             Return
         }
         ; Calls the SetLabel Function
-        ^+l{SetLabel()}
+        ^+l::SetLabel()
 
         ; Creates a new charge and automatically calls SetRemoteLabor
-        !+c {
-            Send, !+c
-            Sleep, 500
-            WinWaitActive, New Charge
+        !+c:: {
+            Send(!+c)
+            Sleep(500)
+            WinWaitActive(New Charge)
             SetRemoteLabor()
             Return
         }
@@ -232,21 +232,22 @@ SetRemoteLabor()
     #HotIf (WinActive("New Ticket"))
     {
         ; Autofills a new ticket with the contents of an email
-        ^e::
+        ^e:: {
             clipboard := ""
-            Send, ^a^x
+            Send(^a^x)
             ClipWait
             clipboard := StrReplace(clipboard, "$User", GetCurrentSender())
             clipboard := StrReplace(clipboard, "$ContactType", "email")
             userAccount := SubStr(GetEmailDomain(), 1, 4)
-            Send, ^v
-            SendRaw, % GetEmailBody()
-            Send, +{Tab 3}
-            Send, %userAccount%
-            KeyWait, Enter, D
-            Send, {Enter}{Tab 3}
+            Send(^v)
+            SendRaw(%GetEmailBody()%)
+            Send(+{Tab 3})
+            Send(%userAccount%)
+            KeyWait(Enter, D)
+            Send({Enter}{Tab 3})
             SetAsHandled()
-        Return
+            Return
+        }
 
         ; Prompts for input for quick phone triage
         ^p::
