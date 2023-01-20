@@ -135,7 +135,7 @@ SetLabel()
 SetRemoteLabor()
 {
     ControlClick(TSOEdit1)
-    Send(Labor{Space}+9R{Enter}{Tab 3}{Enter})
+    Send "Labor{Space}+9R{Enter}{Tab 3}{Enter}"
 }
 
 ; General Hotkeys
@@ -152,14 +152,15 @@ SetRemoteLabor()
 {
     ; Generates a Table of Contents using Headers of a Markdown File
     ;; Should work fine for general applications but is untested outside of current usecase context
-    ^!m:: {
+    ^!m::
+    {
         clipboard := ""
-        Send(^a^x)
+        Send "^a^x"
         ClipWait
         instr := RegExReplace(clipboard, "m)^(?!#+.*).*\R")
         instr := RegExReplace(instr, "^.*[^\s]")
         outstr := ""
-        Loop(Parse, instr, `n)
+        Loop Parse instr, "`n"
         {
             RegExReplace(A_LoopField, "#", "#", rCount)
             rCount -= 1
@@ -181,7 +182,7 @@ SetRemoteLabor()
         }
         RegExMatch(clipboard, "m)^# (?!Table of Contents)(.*\R)*.*", out)
         clipboard := "# Table of Contents`r`n" . outstr . out
-        Send(^v)
+        Send "^v"
         Return
     }
 }
@@ -191,16 +192,17 @@ SetRemoteLabor()
 #HotIf (WinActive("ahk_exe OUTLOOK.EXE"))
 {
     ; Generates a reply email and autofills with standard greeting and email signature
-    ^r:: {
+    ^r::
+    {
         GetCurrentEmail().ReplyAll.Display
-        Send(!has2{Down 4}{Enter}{Up 2})
+        Send "!has2{Down 4}{Enter}{Up 2}"
         Send(%GenerateGreeting() . GetFirstName() . ","%)
-        Send({Enter 2})
+        Send "{Enter 2}"
         Return
     }
 
     ; Autoapplies email signature on new emails
-    ^n::Send(^n!nas2{Down 4}{Enter})
+    ^n::Send "^n!nas2{Down 4}{Enter}"
 }
 
 ; RangerMSP Hotkeys
@@ -210,17 +212,19 @@ SetRemoteLabor()
     #HotIf (WinActive("RangerMSP"))
     {
         ; Creates a new ticket prefilling text
-        ^n:: {
-            Send(^n)
+        ^n::
+        {
+            Send "^n"
             WinWaitActive(ahk_class TDatNewSupportTicketsFrm)
-            Send({Tab 3}{F8}{Enter})
+            Send "{Tab 3}{F8}{Enter}"
             Return
         }
         ; Calls the SetLabel Function
         ^+l::SetLabel()
 
         ; Creates a new charge and automatically calls SetRemoteLabor
-        !+c:: {
+        !+c::
+        {
             Send(!+c)
             Sleep(500)
             WinWaitActive(New Charge)
@@ -232,91 +236,102 @@ SetRemoteLabor()
     #HotIf (WinActive("New Ticket"))
     {
         ; Autofills a new ticket with the contents of an email
-        ^e:: {
+        ^e::
+        {
             clipboard := ""
-            Send(^a^x)
+            Send "^a^x"
             ClipWait
             clipboard := StrReplace(clipboard, "$User", GetCurrentSender())
             clipboard := StrReplace(clipboard, "$ContactType", "email")
             userAccount := SubStr(GetEmailDomain(), 1, 4)
-            Send(^v)
+            Send "^v"
             SendRaw(%GetEmailBody()%)
-            Send(+{Tab 3})
+            Send "+{Tab 3}"
             Send(%userAccount%)
             KeyWait(Enter, D)
-            Send({Enter}{Tab 3})
+            Send "{Enter}{Tab 3}"
             SetAsHandled()
             Return
         }
 
         ; Prompts for input for quick phone triage
         ^p::
+        {
             clipboard := ""
-            InputBox, userName, Name:,,,150,100
-            InputBox, userAccount, Account:,,,150,100
-            Send, ^a^x
+            InputBox(userName, "Name:",,,150,100)
+            InputBox(userAccount, "Account:",,,150,100)
+            Send "^a^x"
             ClipWait
             clipboard := StrReplace(clipboard, "$User", userName)
             clipboard := StrReplace(clipboard, "$ContactType", "phone")
-            Send, ^v
-            Send, +{Tab 3}
-            Send, %userAccount%
-            KeyWait, Enter, D
-            Send, {Tab 3}
-        Return
+            Send "^v"
+            Send "+{Tab 3}"
+            Send(%userAccount%)
+            KeyWait(Enter, D)
+            Send "{Tab 3}"
+            Return
+        }
     }
 
     #HotIf (WinActive("New Charge - (Labor)"))
     {
         ; Pastes email content into body of charge
         ^e::
-            Send, % GetFirstName()
-            Send, {Space}Emailed in:{Enter}
-            SendRaw, % GetEmailBody()
+        {
+            Send(%GetFirstName()%)
+            Send "{Space}Emailed in:{Enter}"
+            SendRaw(%GetEmailBody()%)
             SetAsHandled()
-        Return
+            Return
+        }
 
         ; Manually calls SetRemoteLabor function in case of error
         ^r::SetRemoteLabor()
 
         ; Overwrites save charge button to automatically Round Down time
         ^g::
-            ControlClick, TBitBtn1,,,,,NA
-            WinWaitActive, New Charge
+        {
+            ControlClick(TBitBtn1,,,,,NA)
+            WinWaitActive(New Charge)
             If(WinActive("ahk_class TMessageForm"))
             {
-                ControlClick, TButton1,,,,,NA
+                ControlClick(TButton1,,,,,NA)
             }
             While WinActive("ahk_class TDatSlipsDtlFrm")
             {
-                ControlClick, TButton1,,,,,NA
+                ControlClick(TButton1,,,,,NA)
             }
-        Return
+            Return
+        }
 
         ; Prompts for minutes spent on charge for quick input
         ^t::
-            InputBox, mins, Minutes:,,,150,100
-            KeyWait, Enter, D
+        {
+            InputBox(mins, "Minutes:",,,150,100)
+            KeyWait(Enter, D)
             If(mins < 10)
             {
                 mins := "0" . mins
             }
             mins := "00" . mins
-            ControlSend, TAdrockDateTimeEdit1, %mins%
-            ControlFocus, TCmtDBMemoValueSelect1
-            Send, {Down 10}
-        Return
+            ControlSend(TAdrockDateTimeEdit1, %mins%)
+            ControlFocus(TCmtDBMemoValueSelect1)
+            Send "{Down 10}"
+            Return
+        }
     }
 
     #HotIf (WinActive("Timer"))
     {
         ; Quick close of timer and creation of remote charge
         ^Enter::
-            Click, 230, 50
-            WinWaitActive, New Charge - (Labor),,500
-            Click, 30 395
-            Sleep, 100
+        {
+            Click(230, 50)
+            WinWaitActive(New Charge - (Labor),,500)
+            Click(30, 395)
+            Sleep(100)
             SetRemoteLabor()
-        Return
+            Return
+        }
     }
 }
