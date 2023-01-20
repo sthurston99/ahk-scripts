@@ -1,4 +1,4 @@
-SendMode(Input)
+SendMode Input
 SetWorkingDir(%A_ScriptDir%)
 AHKPath:="C:\Program Files\AutoHotkey\AutoHotkey.exe"
 
@@ -91,6 +91,7 @@ GetEmailDomain(address:="")
     {
         address := GetCurrentEmail().SenderEmailAddress
     }
+    account := ""
     RegExMatch(address, "(?<=@).*(?=\.)", account)
     Return account
 }
@@ -99,7 +100,7 @@ GetEmailDomain(address:="")
 GenerateGreeting()
 {
     greetings := ["","Hi","Hey","Good $time"]
-    FormatTime(hour,,H)
+    hour := FormatTime(,"H")
     If (hour >= 7) and (hour < 12)
     {
         timestr := "morning"
@@ -112,7 +113,7 @@ GenerateGreeting()
     {
         timestr := "day" ; In case hour is outside of normal operating hours
     }
-    Random(idx, 1, greetings.Length())
+    idx := Random(1, greetings.Length())
     greet := greetings[idx]
     If (greet != "")
     {
@@ -127,14 +128,14 @@ GenerateGreeting()
 SetLabel()
 {
     Click(300,100)
-    WinWait(DatLabelSelectChkListFrm)
-    ControlClick(Simon)
+    WinWait("DatLabelSelectChkListFrm")
+    ControlClick("Simon")
 }
 
 ; Sets the labor type of a charge to be remote
 SetRemoteLabor()
 {
-    ControlClick(TSOEdit1)
+    ControlClick("TSOEdit1")
     Send "Labor{Space}+9R{Enter}{Tab 3}{Enter}"
 }
 
@@ -164,8 +165,8 @@ SetRemoteLabor()
         {
             RegExReplace(A_LoopField, "#", "#", rCount)
             rCount -= 1
-            tspace :=
-            Loop, %rCount%
+            tspace := ""
+            Loop(%rCount%)
                 tspace := tspace . A_Tab
             str := %A_LoopField%
             ; Replace headings with bullets
@@ -180,6 +181,7 @@ SetRemoteLabor()
             str := %RegExReplace(str, "#(\w+)\s(\w+)", "#$1+$2")%
             outstr := outstr . str . "`n"
         }
+        out := ""
         RegExMatch(clipboard, "m)^# (?!Table of Contents)(.*\R)*.*", out)
         clipboard := "# Table of Contents`r`n" . outstr . out
         Send "^v"
@@ -215,7 +217,7 @@ SetRemoteLabor()
         ^n::
         {
             Send "^n"
-            WinWaitActive(ahk_class TDatNewSupportTicketsFrm)
+            WinWaitActive("ahk_class TDatNewSupportTicketsFrm")
             Send "{Tab 3}{F8}{Enter}"
             Return
         }
@@ -225,9 +227,9 @@ SetRemoteLabor()
         ; Creates a new charge and automatically calls SetRemoteLabor
         !+c::
         {
-            Send(!+c)
+            Send "!+c"
             Sleep(500)
-            WinWaitActive(New Charge)
+            WinWaitActive("New Charge")
             SetRemoteLabor()
             Return
         }
@@ -245,10 +247,10 @@ SetRemoteLabor()
             clipboard := StrReplace(clipboard, "$ContactType", "email")
             userAccount := SubStr(GetEmailDomain(), 1, 4)
             Send "^v"
-            SendRaw(%GetEmailBody()%)
+            SendRaw %GetEmailBody()%
             Send "+{Tab 3}"
             Send(%userAccount%)
-            KeyWait(Enter, D)
+            KeyWait Enter, "D" 
             Send "{Enter}{Tab 3}"
             SetAsHandled()
             Return
@@ -258,8 +260,8 @@ SetRemoteLabor()
         ^p::
         {
             clipboard := ""
-            InputBox(userName, "Name:",,,150,100)
-            InputBox(userAccount, "Account:",,,150,100)
+            userName := InputBox("Name:",,,150,100)
+            userAccount := InputBox("Account:",,,150,100)
             Send "^a^x"
             ClipWait
             clipboard := StrReplace(clipboard, "$User", userName)
