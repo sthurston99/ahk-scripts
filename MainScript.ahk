@@ -1,5 +1,6 @@
-SendMode Input
-SetWorkingDir(%A_ScriptDir%)
+SendMode "Input"
+SetWorkingDir A_ScriptDir
+CoordMode "Mouse", "Window"
 AHKPath:="C:\Program Files\AutoHotkey\AutoHotkey.exe"
 
 ; ahk-scripts by Simon Thurston
@@ -91,9 +92,8 @@ GetEmailDomain(address:="")
     {
         address := GetCurrentEmail().SenderEmailAddress
     }
-    account := ""
-    RegExMatch(address, "(?<=@).*(?=\.)", account)
-    Return account
+    RegExMatch(address, "(?<=@).*(?=\.)", &account)
+    Return account[0]
 }
 
 ; Returns a random boilerplate email greeting
@@ -127,9 +127,9 @@ GenerateGreeting()
 ;; Will likely need to refactor or move actual code to hotkey
 SetLabel()
 {
-    Click(300,100)
-    WinWait("DatLabelSelectChkListFrm")
-    ControlClick("Simon")
+    Click "300 100"
+    WinWait "DatLabelSelectChkListFrm"
+    ControlClick "Simon"
 }
 
 ; Sets the labor type of a charge to be remote
@@ -146,6 +146,8 @@ SetRemoteLabor()
 
 ; Pauses execution
 ^!+p::Pause
+
+^!+d::MsgBox GetEmailDomain()
 
 ; VSCodium Hotkeys
 
@@ -240,17 +242,17 @@ SetRemoteLabor()
         ; Autofills a new ticket with the contents of an email
         ^e::
         {
-            clipboard := ""
+            A_Clipboard := ""
             Send "^a^x"
             ClipWait
-            clipboard := StrReplace(clipboard, "$User", GetCurrentSender())
-            clipboard := StrReplace(clipboard, "$ContactType", "email")
+            A_Clipboard := StrReplace(A_Clipboard, "$User", GetCurrentSender())
+            A_Clipboard := StrReplace(A_Clipboard, "$ContactType", "email")
             userAccount := SubStr(GetEmailDomain(), 1, 4)
             Send "^v"
-            SendRaw %GetEmailBody()%
+            Send GetEmailBody()
             Send "+{Tab 3}"
-            Send(%userAccount%)
-            KeyWait Enter, "D" 
+            Send userAccount
+            KeyWait "Enter", "D" 
             Send "{Enter}{Tab 3}"
             SetAsHandled()
             Return
@@ -260,8 +262,8 @@ SetRemoteLabor()
         ^p::
         {
             clipboard := ""
-            userName := InputBox("Name:",,,150,100)
-            userAccount := InputBox("Account:",,,150,100)
+            userName := InputBox("Name:",,150 100)
+            userAccount := InputBox("Account:",,150 100)
             Send "^a^x"
             ClipWait
             clipboard := StrReplace(clipboard, "$User", userName)
@@ -269,7 +271,7 @@ SetRemoteLabor()
             Send "^v"
             Send "+{Tab 3}"
             Send(%userAccount%)
-            KeyWait(Enter, D)
+            KeyWait "Enter", "D"
             Send "{Tab 3}"
             Return
         }
@@ -282,7 +284,7 @@ SetRemoteLabor()
         {
             Send(%GetFirstName()%)
             Send "{Space}Emailed in:{Enter}"
-            SendRaw(%GetEmailBody()%)
+            Send %GetEmailBody()%
             SetAsHandled()
             Return
         }
@@ -293,15 +295,15 @@ SetRemoteLabor()
         ; Overwrites save charge button to automatically Round Down time
         ^g::
         {
-            ControlClick(TBitBtn1,,,,,NA)
-            WinWaitActive(New Charge)
+            ControlClick("TBitBtn1",,,,,"NA")
+            WinWaitActive("New Charge")
             If(WinActive("ahk_class TMessageForm"))
             {
-                ControlClick(TButton1,,,,,NA)
+                ControlClick("TButton1",,,,,"NA")
             }
             While WinActive("ahk_class TDatSlipsDtlFrm")
             {
-                ControlClick(TButton1,,,,,NA)
+                ControlClick("TButton1",,,,,"NA")
             }
             Return
         }
@@ -309,15 +311,15 @@ SetRemoteLabor()
         ; Prompts for minutes spent on charge for quick input
         ^t::
         {
-            InputBox(mins, "Minutes:",,,150,100)
-            KeyWait(Enter, D)
+            mins := InputBox("Minutes:",,150 100)
+            KeyWait "Enter", "D"
             If(mins < 10)
             {
                 mins := "0" . mins
             }
             mins := "00" . mins
-            ControlSend(TAdrockDateTimeEdit1, %mins%)
-            ControlFocus(TCmtDBMemoValueSelect1)
+            ControlSend "TAdrockDateTimeEdit1", %mins%
+            ControlFocus "TCmtDBMemoValueSelect1" 
             Send "{Down 10}"
             Return
         }
@@ -329,7 +331,7 @@ SetRemoteLabor()
         ^Enter::
         {
             Click(230, 50)
-            WinWaitActive(New Charge - (Labor),,500)
+            WinWaitActive("New Charge - (Labor)",,500)
             Click(30, 395)
             Sleep(100)
             SetRemoteLabor()
