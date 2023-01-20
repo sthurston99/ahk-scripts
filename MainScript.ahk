@@ -113,7 +113,7 @@ GenerateGreeting()
     {
         timestr := "day" ; In case hour is outside of normal operating hours
     }
-    idx := Random(1, greetings.Length())
+    idx := Random(1, greetings.Length)
     greet := greetings[idx]
     If (greet != "")
     {
@@ -157,10 +157,10 @@ SetRemoteLabor()
     ;; Should work fine for general applications but is untested outside of current usecase context
     ^!m::
     {
-        clipboard := ""
+        A_Clipboard := ""
         Send "^a^x"
         ClipWait
-        instr := RegExReplace(clipboard, "m)^(?!#+.*).*\R")
+        instr := RegExReplace(A_Clipboard, "m)^(?!#+.*).*\R")
         instr := RegExReplace(instr, "^.*[^\s]")
         outstr := ""
         Loop Parse instr, "`n"
@@ -184,8 +184,8 @@ SetRemoteLabor()
             outstr := outstr . str . "`n"
         }
         out := ""
-        RegExMatch(clipboard, "m)^# (?!Table of Contents)(.*\R)*.*", out)
-        clipboard := "# Table of Contents`r`n" . outstr . out
+        RegExMatch(A_Clipboard, "m)^# (?!Table of Contents)(.*\R)*.*", out)
+        A_Clipboard := "# Table of Contents`r`n" . outstr . out
         Send "^v"
         Return
     }
@@ -261,16 +261,16 @@ SetRemoteLabor()
         ; Prompts for input for quick phone triage
         ^p::
         {
-            clipboard := ""
-            userName := InputBox("Name:",,150 100)
-            userAccount := InputBox("Account:",,150 100)
+            A_Clipboard := ""
+            userName := InputBox("Name:",,"W150 H100")
+            userAccount := InputBox("Account:",,"W150 H100")
             Send "^a^x"
             ClipWait
-            clipboard := StrReplace(clipboard, "$User", userName)
-            clipboard := StrReplace(clipboard, "$ContactType", "phone")
+            A_Clipboard := StrReplace(A_Clipboard, "$User", userName.Value)
+            A_Clipboard := StrReplace(A_Clipboard, "$ContactType", "phone")
             Send "^v"
             Send "+{Tab 3}"
-            Send(%userAccount%)
+            Send userAccount.Value
             KeyWait "Enter", "D"
             Send "{Tab 3}"
             Return
@@ -282,9 +282,9 @@ SetRemoteLabor()
         ; Pastes email content into body of charge
         ^e::
         {
-            Send(%GetFirstName()%)
+            Send GetFirstName()
             Send "{Space}Emailed in:{Enter}"
-            Send %GetEmailBody()%
+            Send GetEmailBody()
             SetAsHandled()
             Return
         }
@@ -330,9 +330,9 @@ SetRemoteLabor()
         ; Quick close of timer and creation of remote charge
         ^Enter::
         {
-            Click(230, 50)
+            Click "230 50"
             WinWaitActive("New Charge - (Labor)",,500)
-            Click(30, 395)
+            Click "30 395"
             Sleep(100)
             SetRemoteLabor()
             Return
