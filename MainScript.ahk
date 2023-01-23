@@ -200,7 +200,7 @@ SetRemoteLabor()
     {
         GetCurrentEmail().ReplyAll.Display
         Send "!has2{Down 4}{Enter}{Up 2}"
-        Send(%GenerateGreeting() . GetFirstName() . ","%)
+        Send(GenerateGreeting() . GetFirstName() . ",")
         Send "{Enter 2}"
         Return
     }
