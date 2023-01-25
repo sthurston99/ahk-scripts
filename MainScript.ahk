@@ -1,7 +1,6 @@
-#NoEnv
-#SingleInstance, Force
-SendMode, Input
-SetWorkingDir, %A_ScriptDir%.
+SendMode "Input"
+SetWorkingDir A_ScriptDir
+CoordMode "Mouse", "Window"
 AHKPath:="C:\Program Files\AutoHotkey\AutoHotkey.exe"
 
 ; ahk-scripts by Simon Thurston
@@ -93,15 +92,15 @@ GetEmailDomain(address:="")
     {
         address := GetCurrentEmail().SenderEmailAddress
     }
-    RegExMatch(address, "(?<=@).*(?=\.)", account)
-    Return account
+    RegExMatch(address, "(?<=@).*(?=\.)", &account)
+    Return account[0]
 }
 
 ; Returns a random boilerplate email greeting
 GenerateGreeting()
 {
     greetings := ["","Hi","Hey","Good $time"]
-    FormatTime, hour,, H
+    hour := FormatTime(,"H")
     If (hour >= 7) and (hour < 12)
     {
         timestr := "morning"
@@ -114,7 +113,7 @@ GenerateGreeting()
     {
         timestr := "day" ; In case hour is outside of normal operating hours
     }
-    Random, idx, 1, greetings.Length()
+    idx := Random(1, greetings.Length)
     greet := greetings[idx]
     If (greet != "")
     {
@@ -128,16 +127,16 @@ GenerateGreeting()
 ;; Will likely need to refactor or move actual code to hotkey
 SetLabel()
 {
-    Click, 300 100
-    WinWait, DatLabelSelectChkListFrm
-    ControlClick, Simon
+    Click "300 100"
+    WinWait "DatLabelSelectChkListFrm"
+    ControlClick "Simon"
 }
 
 ; Sets the labor type of a charge to be remote
 SetRemoteLabor()
 {
-    ControlClick, TSOEdit1
-    Send, Labor{Space}+9R{Enter}{Tab 3}{Enter}
+    ControlClick("TSOEdit1")
+    Send "Labor{Space}+9R{Enter}{Tab 3}{Enter}"
 }
 
 ; General Hotkeys
@@ -148,173 +147,195 @@ SetRemoteLabor()
 ; Pauses execution
 ^!+p::Pause
 
+^!+d::MsgBox GetEmailDomain()
+
 ; VSCodium Hotkeys
 
-#If (WinActive("ahk_exe VSCodium.exe"))
+#HotIf (WinActive("ahk_exe VSCodium.exe"))
 {
     ; Generates a Table of Contents using Headers of a Markdown File
     ;; Should work fine for general applications but is untested outside of current usecase context
     ^!m::
-        clipboard := ""
-        Send, ^a^x
+    {
+        A_Clipboard := ""
+        Send "^a^x"
         ClipWait
-        instr := RegExReplace(clipboard, "m)^(?!#+.*).*\R")
+        instr := RegExReplace(A_Clipboard, "m)^(?!#+.*).*\R")
         instr := RegExReplace(instr, "^.*[^\s]")
         outstr := ""
-        Loop, Parse, instr, `n
+        Loop Parse instr, "`n"
         {
             RegExReplace(A_LoopField, "#", "#", rCount)
             rCount -= 1
-            tspace :=
-            Loop, %rCount%
+            tspace := ""
+            Loop(%rCount%)
                 tspace := tspace . A_Tab
-            str := % A_LoopField
+            str := %A_LoopField%
             ; Replace headings with bullets
-            str := % RegExReplace(str, "#+", tspace . "*")
+            str := %RegExReplace(str, "#+", tspace . "*")%
             ; Place headings into Markdown Link Format
-            str := % RegExReplace(str, "(?<=\*\s)(.*)", "[$1](#$1)")
+            str := %RegExReplace(str, "(?<=\*\s)(.*)", "[$1](#$1)")%
             ; Trim Newlines
-            str := % RegExReplace(str, "m)\R")
+            str := %RegExReplace(str, "m)\R")%
             ; Condense filenames and hotkeys to links
-            str := % RegExReplace(str, "[\.+](?!\S+\])")
+            str := %RegExReplace(str, "[\.+](?!\S+\])")%
             ; Replace spaces with plusses
-            str := % RegExReplace(str, "#(\w+)\s(\w+)", "#$1+$2")
+            str := %RegExReplace(str, "#(\w+)\s(\w+)", "#$1+$2")%
             outstr := outstr . str . "`n"
         }
-        RegExMatch(clipboard, "m)^# (?!Table of Contents)(.*\R)*.*", out)
-        clipboard := "# Table of Contents`r`n" . outstr . out
-        Send, ^v
-    Return
+        out := ""
+        RegExMatch(A_Clipboard, "m)^# (?!Table of Contents)(.*\R)*.*", out)
+        A_Clipboard := "# Table of Contents`r`n" . outstr . out
+        Send "^v"
+        Return
+    }
 }
 
 ; Outlook Hotkeys
 
-#If (WinActive("ahk_exe OUTLOOK.EXE"))
+#HotIf (WinActive("ahk_exe OUTLOOK.EXE"))
 {
     ; Generates a reply email and autofills with standard greeting and email signature
     ^r::
-        GetCurrentEmail().replyall().Display()
-        Send, !has2{Down 4}{Enter}{Up 2}
-        Send, % GenerateGreeting() . GetFirstName(GetStandardName(email.SenderName)) . ","
-        Send, {Enter 2}
-    Return
+    {
+        GetCurrentEmail().ReplyAll.Display
+        Send "!has2{Down 4}{Enter}{Up 2}"
+        Send(GenerateGreeting() . GetFirstName() . ",")
+        Send "{Enter 2}"
+        Return
+    }
 
     ; Autoapplies email signature on new emails
-    ^n::Send, ^n!nas2{Down 4}{Enter}
+    ^n::Send "^n!nas2{Down 4}{Enter}"
 }
 
 ; RangerMSP Hotkeys
 
-#If (WinActive("AHK_exe RangerMSP.exe"))
+#HotIf (WinActive("AHK_exe RangerMSP.exe"))
 {
-    #If (WinActive("RangerMSP"))
+    #HotIf (WinActive("RangerMSP"))
     {
         ; Creates a new ticket prefilling text
         ^n::
-            Send, ^n
-            WinWaitActive, ahk_class TDatNewSupportTicketsFrm
-            Send, {Tab 3}{F8}{Enter}
-        Return
-
+        {
+            Send "^n"
+            WinWaitActive("ahk_class TDatNewSupportTicketsFrm")
+            Send "{Tab 3}{F8}{Enter}"
+            Return
+        }
         ; Calls the SetLabel Function
         ^+l::SetLabel()
 
         ; Creates a new charge and automatically calls SetRemoteLabor
         !+c::
-            Send, !+c
-            Sleep, 500
-            WinWaitActive, New Charge
+        {
+            Send "!+c"
+            Sleep(500)
+            WinWaitActive("New Charge")
             SetRemoteLabor()
-        Return
+            Return
+        }
     }
 
-    #If (WinActive("New Ticket"))
+    #HotIf (WinActive("New Ticket"))
     {
         ; Autofills a new ticket with the contents of an email
         ^e::
-            clipboard := ""
-            Send, ^a^x
+        {
+            A_Clipboard := ""
+            Send "^a^x"
             ClipWait
-            clipboard := StrReplace(clipboard, "$User", GetCurrentSender())
-            clipboard := StrReplace(clipboard, "$ContactType", "email")
+            A_Clipboard := StrReplace(A_Clipboard, "$User", GetCurrentSender())
+            A_Clipboard := StrReplace(A_Clipboard, "$ContactType", "email")
             userAccount := SubStr(GetEmailDomain(), 1, 4)
-            Send, ^v
-            SendRaw, % GetEmailBody()
-            Send, +{Tab 3}
-            Send, %userAccount%
-            KeyWait, Enter, D
-            Send, {Enter}{Tab 3}
+            Send "^v"
+            Send GetEmailBody()
+            Send "+{Tab 3}"
+            Send userAccount
+            KeyWait "Enter", "D" 
+            Send "{Enter}{Tab 3}"
             SetAsHandled()
-        Return
+            Return
+        }
 
         ; Prompts for input for quick phone triage
         ^p::
-            clipboard := ""
-            InputBox, userName, Name:,,,150,100
-            InputBox, userAccount, Account:,,,150,100
-            Send, ^a^x
+        {
+            A_Clipboard := ""
+            userName := InputBox("Name:",,"W150 H100")
+            userAccount := InputBox("Account:",,"W150 H100")
+            Send "^a^x"
             ClipWait
-            clipboard := StrReplace(clipboard, "$User", userName)
-            clipboard := StrReplace(clipboard, "$ContactType", "phone")
-            Send, ^v
-            Send, +{Tab 3}
-            Send, %userAccount%
-            KeyWait, Enter, D
-            Send, {Tab 3}
-        Return
+            A_Clipboard := StrReplace(A_Clipboard, "$User", userName.Value)
+            A_Clipboard := StrReplace(A_Clipboard, "$ContactType", "phone")
+            Send "^v"
+            Send "+{Tab 3}"
+            Send userAccount.Value
+            KeyWait "Enter", "D"
+            Send "{Tab 3}"
+            Return
+        }
     }
 
-    #If (WinActive("New Charge - (Labor)"))
+    #HotIf (WinActive("New Charge - (Labor)"))
     {
         ; Pastes email content into body of charge
         ^e::
-            Send, % GetFirstName()
-            Send, {Space}Emailed in:{Enter}
-            SendRaw, % GetEmailBody()
+        {
+            Send GetFirstName()
+            Send "{Space}Emailed in:{Enter}"
+            Send GetEmailBody()
             SetAsHandled()
-        Return
+            Return
+        }
 
         ; Manually calls SetRemoteLabor function in case of error
         ^r::SetRemoteLabor()
 
         ; Overwrites save charge button to automatically Round Down time
         ^g::
-            ControlClick, TBitBtn1,,,,,NA
-            WinWaitActive, New Charge
+        {
+            ControlClick("TBitBtn1",,,,,"NA")
+            WinWaitActive("New Charge")
             If(WinActive("ahk_class TMessageForm"))
             {
-                ControlClick, TButton1,,,,,NA
+                ControlClick("TButton1",,,,,"NA")
             }
             While WinActive("ahk_class TDatSlipsDtlFrm")
             {
-                ControlClick, TButton1,,,,,NA
+                ControlClick("TButton1",,,,,"NA")
             }
-        Return
+            Return
+        }
 
         ; Prompts for minutes spent on charge for quick input
         ^t::
-            InputBox, mins, Minutes:,,,150,100
-            KeyWait, Enter, D
+        {
+            mins := InputBox("Minutes:",,150 100)
+            KeyWait "Enter", "D"
             If(mins < 10)
             {
                 mins := "0" . mins
             }
             mins := "00" . mins
-            ControlSend, TAdrockDateTimeEdit1, %mins%
-            ControlFocus, TCmtDBMemoValueSelect1
-            Send, {Down 10}
-        Return
+            ControlSend "TAdrockDateTimeEdit1", %mins%
+            ControlFocus "TCmtDBMemoValueSelect1" 
+            Send "{Down 10}"
+            Return
+        }
     }
 
-    #If (WinActive("Timer"))
+    #HotIf (WinActive("Timer"))
     {
         ; Quick close of timer and creation of remote charge
         ^Enter::
-            Click, 230, 50
-            WinWaitActive, New Charge - (Labor),,500
-            Click, 30 395
-            Sleep, 100
+        {
+            Click "230 50"
+            WinWaitActive("New Charge - (Labor)",,500)
+            Click "30 395"
+            Sleep(100)
             SetRemoteLabor()
-        Return
+            Return
+        }
     }
 }
