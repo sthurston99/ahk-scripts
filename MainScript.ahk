@@ -72,7 +72,7 @@ GetEmailBody(email:="",name:="")
     {
         regexstr := regexstr . name . ").*"
     }
-    Return StrReplace(Trim(RegExReplace(RegExReplace(email, regexstr), linecleaner, "`n`n"), whitespace), "`t", " ")
+    Return RegExReplace(StrReplace(Trim(RegExReplace(RegExReplace(email, regexstr), linecleaner, "`n`n"), whitespace), "`t", " "), "([!+#^{}])","`{${1}`}")
 }
 
 ; Sets the Category of the email to mark that it was handled by me, and marks as read
