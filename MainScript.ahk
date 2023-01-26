@@ -210,7 +210,7 @@ SetRemoteLabor()
 
     #HotIf (WinActive("Message (HTML)"))
     {
-        :*:spammail::I've got this blocked. Let us know if you receive any more or if you need any further assistance.
+        :*:spammail::I've got this blocked. You can delete the original message if you haven't already. Let us know if you receive any more or if you need any further assistance.
     }
 }
 
