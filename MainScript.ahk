@@ -129,7 +129,7 @@ SetLabel(lbl:="")
 {
     If(lbl = "")
     {
-        lbl := GetFirstName(A_UserName)
+        lbl := A_UserName
     }
     WinActivate("RangerMSP")
     Click "300 100"
