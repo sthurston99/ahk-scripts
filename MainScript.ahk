@@ -207,6 +207,11 @@ SetRemoteLabor()
 
     ; Autoapplies email signature on new emails
     ^n::Send "^n!nas2{Down 4}{Enter}"
+
+    #HotIf (WinActive("Message (HTML)"))
+    {
+        :*:spammail::I've got this blocked. You can delete the original message if you haven't already. Let us know if you receive any more or if you need any further assistance.
+    }
 }
 
 ; RangerMSP Hotkeys
