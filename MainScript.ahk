@@ -125,11 +125,12 @@ GenerateGreeting()
 ; Sets my personal label onto a ticket
 ;; Originally made to make the task repeatable, however is currently only used for one hotkey
 ;; Will likely need to refactor or move actual code to hotkey
-SetLabel()
+SetLabel(lbl:="Simon")
 {
+    WinActivate("RangerMSP")
     Click "300 100"
     WinWait "DatLabelSelectChkListFrm"
-    ControlClick "Simon"
+    ControlClick lbl
 }
 
 ; Sets the labor type of a charge to be remote
@@ -230,6 +231,12 @@ SetRemoteLabor()
         }
         ; Calls the SetLabel Function
         ^+l::SetLabel()
+
+        ^!+l::
+        {
+            lbl := InputBox("Label:",,"W150 H100").Value
+            SetLabel(lbl)
+        }
 
         ; Creates a new charge and automatically calls SetRemoteLabor
         !+c::
