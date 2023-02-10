@@ -50,6 +50,12 @@ GetFirstName(name:="")
     Return RegExReplace(name,"\s.*")
 }
 
+; Extracts First and Last initial from a passed in name
+GetInitials(name)
+{
+    Return RegExReplace(GetStandardName(name),"(?!\b\w).")
+}
+
 ; Trims out the contents of an email after the name provided
 ; If no sender provided, passes empty string internally
 ; If no email provided, uses current selected email in outlook
@@ -79,7 +85,14 @@ GetEmailBody(email:="",name:="")
 SetAsHandled()
 {
     email := GetCurrentEmail()
-    email.Categories := "ST"
+    If(email.Categories = "")
+    {
+        email.Categories := GetInitials(A_UserName)
+    }
+    Else If(!InStr(email.Categories, GetInitials(A_UserName)))
+    {
+        email.Categories := email.Categories . ", " . GetInitials(A_UserName)
+    }
     email.UnRead := False
     email.Save
     Return
@@ -151,8 +164,6 @@ SetRemoteLabor()
 
 ; Pauses execution
 ^!+p::Pause
-
-^!+d::MsgBox GetEmailDomain()
 
 ; VSCodium Hotkeys
 
