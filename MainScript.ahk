@@ -63,7 +63,6 @@ GetEmailBody(email:="",name:="")
 {
     whitespace := " `t`n`r"
     regexstr := "s)(?=From:|" . GetFirstName(name) . "|" . GetStandardName(name) . "|"
-    linecleaner := "\s{2,}"
     
     If(email = "")
     {
@@ -78,7 +77,13 @@ GetEmailBody(email:="",name:="")
     {
         regexstr := regexstr . name . ").*"
     }
-    Return RegExReplace(StrReplace(Trim(RegExReplace(RegExReplace(email, regexstr), linecleaner, "`n`n"), whitespace), "`t", " "), "([!+#^{}])","`{${1}`}")
+    cleanstr := RegExReplace(email, regexstr) ; Initial clearance of anything past first detection of full name for basic sig removal
+    cleanstr := RegExReplace(cleanstr, "\h+", " ") ; Cleaning of extraneus horizontal whitespace
+    cleanstr := RegExReplace(cleanstr, "\v+", "`n") ; Cleaning of extraneous vertical whitespace
+    cleanstr := Trim(cleanstr, whitespace) ; Removes trailing/preceding tabs, spaces, and returns.
+    cleanstr := RegExReplace(cleanstr, "\s{2,}", "`n`n") ; Handling bulk mixed whitespace.
+    cleanstr := RegExReplace(cleanstr, "([!+#^{}])","`{${1}`}") ; Wrap AHK symbols for safe pasting
+    Return cleanstr
 }
 
 ; Sets the Category of the email to mark that it was handled by me, and marks as read
@@ -164,6 +169,8 @@ SetRemoteLabor()
 
 ; Pauses execution
 ^!+p::Pause
+
+^!+d::Send GetEmailBody()
 
 ; VSCodium Hotkeys
 
