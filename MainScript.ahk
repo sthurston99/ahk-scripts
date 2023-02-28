@@ -153,7 +153,7 @@ SetLabel(lbl:="")
     Click "300 100"
     WinWait "DatLabelSelectChkListFrm"
     try {
-        ControlClick lbl
+        ControlClick SubStr(lbl, 2)
     } catch {
         ControlClick "Simon Thurston"
     }
