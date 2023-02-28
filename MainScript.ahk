@@ -2,6 +2,7 @@ SendMode "Input"
 SetWorkingDir A_ScriptDir
 CoordMode "Mouse", "Window"
 AHKPath:="C:\Program Files\AutoHotkey\AutoHotkey.exe"
+SetTitleMatchMode "RegEx"
 
 ; ahk-scripts by Simon Thurston
 ; 1.0.0 (December 27, 2022)
@@ -92,11 +93,11 @@ SetAsHandled()
     email := GetCurrentEmail()
     If(email.Categories = "")
     {
-        email.Categories := GetInitials(A_UserName)
+        email.Categories := SubStr(A_UserName, 1, 2)
     }
-    Else If(!InStr(email.Categories, GetInitials(A_UserName)))
+    Else If(!InStr(email.Categories, SubStr(A_UserName, 1, 2)))
     {
-        email.Categories := email.Categories . ", " . GetInitials(A_UserName)
+        email.Categories := email.Categories . ", " . SubStr(A_UserName, 1, 2)
     }
     email.UnRead := False
     email.Save
@@ -310,7 +311,7 @@ SetRemoteLabor()
         }
     }
 
-    #HotIf (WinActive("New Charge - (Labor)"))
+    #HotIf (WinActive("New Charge - \(Labor\)"))
     {
         ; Pastes email content into body of charge
         ^e::
