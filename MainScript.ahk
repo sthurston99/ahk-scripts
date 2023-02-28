@@ -152,7 +152,11 @@ SetLabel(lbl:="")
     WinActivate("RangerMSP")
     Click "300 100"
     WinWait "DatLabelSelectChkListFrm"
-    ControlClick lbl
+    try {
+        ControlClick lbl
+    } catch {
+        ControlClick "Simon Thurston"
+    }
 }
 
 ; Sets the labor type of a charge to be remote
