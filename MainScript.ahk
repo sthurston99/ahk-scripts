@@ -222,6 +222,7 @@ SetRemoteLabor()
     ^r::
     {
         GetCurrentEmail().ReplyAll.Display
+        WinWaitActive("RE: ")
         Send "!has2{Down 4}{Enter}{Up 2}"
         Send(GenerateGreeting() . GetFirstName() . ",")
         Send "{Enter 2}"
