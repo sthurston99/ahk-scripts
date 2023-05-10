@@ -298,6 +298,7 @@ SetRemoteLabor()
             A_Clipboard := ""
             userName := InputBox("Name:",,"W150 H100")
             userAccount := InputBox("Account:",,"W150 H100")
+            WinActivate("New Ticket")
             Send "^a^x"
             ClipWait
             A_Clipboard := StrReplace(A_Clipboard, "$User", userName.Value)
