@@ -366,7 +366,7 @@ SetRemoteLabor()
         ^Enter::
         {
             Click "230 50"
-            WinWaitActive("New Charge - (Labor)",,500)
+            WinWaitActive("New Charge - \(Labor\)",,500)
             Click "30 395"
             Sleep(100)
             SetRemoteLabor()
